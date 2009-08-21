@@ -2014,4 +2014,23 @@ found in the list of installed applications.</string>
     <string name="emergency_tone_title">Emergency tone</string>
     <!-- Sound settings screen, setting option summary text -->
     <string name="emergency_tone_summary">Set behavior when an emergency call is placed</string>
+    <!-- Ethernet configuration dialog -->
+    <string name="eth_config_title">Configure Ethernet Device</string>
+    <string name="eth_setting">Ethernnt Setting</string>
+<string name="eth_dev_list">Ethernet Devices:</string>
+<string name="eth_con_type">Connection Type</string>
+<string name="eth_con_type_dhcp">Dhcp</string>
+<string name="eth_con_type_manual">Manual</string>
+<string name="eth_dns">DNS address</string>
+<string name="eth_gw">Default Router</string>
+<string name="eth_ipaddr">IP address</string>
+<string name="eth_quick_toggle_title">Toggle Ethernet</string>
+<string name="eth_quick_toggle_summary">Toggle Ethernet Configuration</string>
+<string name="eth_conf_save">Save</string>
+<string name="eth_conf_cancel">Cancel</string>
+<string name="eth_radio_ctrl_title">Ethernet Configuration</string>
+<string name="eth_radio_ctrl_summary">Configure Ethernet devices</string>
+<string name="eth_conf_perf_title">Ethernet Configuration</string>
+<string name="eth_conf_summary">Configure Ethernet Devices</string>
+<string name="eth_mask">Netmask</string>
 </resources>

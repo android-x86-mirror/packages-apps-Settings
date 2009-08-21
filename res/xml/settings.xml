@@ -29,6 +29,15 @@
         </PreferenceScreen>
 
         <PreferenceScreen
+            android:title="@string/eth_radio_ctrl_title"
+            android:summary="@string/eth_radio_ctrl_summary">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.EthernetSettings" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
             android:key="call_settings"
             android:title="@string/call_settings_title"
             android:summary="@string/call_settings_summary">
