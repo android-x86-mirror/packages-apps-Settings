@@ -2016,11 +2016,11 @@ found in the list of installed applications.</string>
     <string name="emergency_tone_summary">Set behavior when an emergency call is placed</string>
     <!-- Ethernet configuration dialog -->
     <string name="eth_config_title">Configure Ethernet Device</string>
-    <string name="eth_setting">Ethernnt Setting</string>
+    <string name="eth_setting">Ethernet Setting</string>
 <string name="eth_dev_list">Ethernet Devices:</string>
 <string name="eth_con_type">Connection Type</string>
 <string name="eth_con_type_dhcp">Dhcp</string>
-<string name="eth_con_type_manual">Manual</string>
+<string name="eth_con_type_manual">Static IP</string>
 <string name="eth_dns">DNS address</string>
 <string name="eth_gw">Default Router</string>
 <string name="eth_ipaddr">IP address</string>

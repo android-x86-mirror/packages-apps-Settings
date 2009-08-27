@@ -61,7 +61,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Etherent controls -->
+        <!-- Ethernet controls -->
         <activity android:name="EthernetSettings"
                 android:label="@string/eth_radio_ctrl_title"
                 >
