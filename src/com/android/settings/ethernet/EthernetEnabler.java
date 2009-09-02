@@ -62,8 +62,9 @@ public class EthernetEnabler implements Preference.OnPreferenceChangeListener{
 
 	        mOriginalSummary = ethernetCheckBoxPreference.getSummary();
 	        ethernetCheckBoxPreference.setPersistent(false);
-	        if(mEthManager.getEthState() == ETH_STATE_ENABLED)
+	        if(mEthManager.getEthState() == ETH_STATE_ENABLED) {
 			mEthCheckBoxPref.setChecked(true);
+	        }
 
 	        /*
 	        mEthStateFilter = new IntentFilter(EthernetManager.ETH_STATE_CHANGED_ACTION);

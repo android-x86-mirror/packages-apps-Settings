@@ -2024,8 +2024,8 @@ found in the list of installed applications.</string>
 <string name="eth_dns">DNS address</string>
 <string name="eth_gw">Default Router</string>
 <string name="eth_ipaddr">IP address</string>
-<string name="eth_quick_toggle_title">Toggle Ethernet</string>
-<string name="eth_quick_toggle_summary">Toggle Ethernet Configuration</string>
+<string name="eth_quick_toggle_title">Ethernet</string>
+<string name="eth_toggle_summary_on">Turn on Ethernet </string>
 <string name="eth_conf_save">Save</string>
 <string name="eth_conf_cancel">Cancel</string>
 <string name="eth_radio_ctrl_title">Ethernet Configuration</string>
@@ -2033,4 +2033,5 @@ found in the list of installed applications.</string>
 <string name="eth_conf_perf_title">Ethernet Configuration</string>
 <string name="eth_conf_summary">Configure Ethernet Devices</string>
 <string name="eth_mask">Netmask</string>
+<string name="eth_toggle_summary_off">Turn off Ethernet</string>
 </resources>
