@@ -66,7 +66,7 @@ AdapterView.OnItemSelectedListener, View.OnClickListener{
         mDns = (EditText)mView.findViewById(R.id.eth_dns_edit);
         mGw = (EditText)mView.findViewById(R.id.eth_gw_edit);
 
-	mConTypeDhcp.setChecked(true);
+	    mConTypeDhcp.setChecked(true);
 		mConTypeManual.setChecked(false);
         mIpaddr.setEnabled(false);
         mMask.setEnabled(false);

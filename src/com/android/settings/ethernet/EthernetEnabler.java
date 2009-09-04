@@ -2,9 +2,7 @@ package com.android.settings.ethernet;
 
 
 import static android.net.ethernet.EthernetManager.ETH_STATE_DISABLED;
-import static android.net.ethernet.EthernetManager.ETH_STATE_DISABLING;
 import static android.net.ethernet.EthernetManager.ETH_STATE_ENABLED;
-import static android.net.ethernet.EthernetManager.ETH_STATE_ENABLING;
 import static android.net.ethernet.EthernetManager.ETH_STATE_UNKNOWN;
 
 import com.android.settings.R;
@@ -80,13 +78,6 @@ public class EthernetEnabler implements Preference.OnPreferenceChangeListener{
 	    }
 
 	    public void resume() {
-		/*
-	        int state = mEthManager.getEthState();
-	        // This is the widget enabled state, not the preference toggled state
-	        mEthCheckBoxPref.setEnabled(state == ETH_STATE_ENABLED || state == ETH_STATE_DISABLED
-	                || state == ETH_STATE_UNKNOWN);
-		*/
-	//        mContext.registerReceiver(mEthStateReceiver, mEthStateFilter);
 	        mEthCheckBoxPref.setOnPreferenceChangeListener(this);
 	    }
 
@@ -129,33 +120,6 @@ public class EthernetEnabler implements Preference.OnPreferenceChangeListener{
 
 	    private void handleEthStateChanged(int ethState, int previousEthState) {
 
-	        if (LOCAL_LOGD) {
-	            Log.d(TAG, "Received wifi state changed from "
-	                    + getHumanReadableEthState(previousEthState) + " to "
-	                    + getHumanReadableEthState(ethState));
-	        }
-	        /*
-	        if (ethState == Eth_STATE_DISABLED || ethState == ETH_STATE_ENABLED) {
-	            mEthCheckBoxPref.setChecked(wifiState == ETH_STATE_ENABLED);
-	            mEthCheckBoxPref
-	                    .setSummary(wifiState == ETH_STATE_DISABLED ? mOriginalSummary : null);
-
-	            mEthCheckBoxPref.setEnabled(isEnabledByDependency());
-
-	        } else if (ethState == ETH_STATE_DISABLING || wifiState == ETH_STATE_ENABLING) {
-	            mEthCheckBoxPref.setSummary(wifiState == ETH_STATE_ENABLING ? R.string.wifi_starting
-	                    : R.string.wifi_stopping);
-
-	        } else if (ethState == ETH_STATE_UNKNOWN) {
-	            int message = R.string.wifi_error;
-	            if (previousEthState == ETH_STATE_ENABLING) message = R.string.error_starting;
-	            else if (previousEthState == ETH_STATE_DISABLING) message = R.string.error_stopping;
-
-	            mEthCheckBoxPref.setChecked(false);
-	            mEthCheckBoxPref.setSummary(message);
-	            mEthCheckBoxPref.setEnabled(true);
-	        }
-	        */
 	    }
 
 	    private void handleNetworkStateChanged(NetworkInfo networkInfo) {
@@ -195,12 +159,8 @@ public class EthernetEnabler implements Preference.OnPreferenceChangeListener{
 	        switch (wifiState) {
 	            case ETH_STATE_DISABLED:
 	                return "Disabled";
-	            case ETH_STATE_DISABLING:
-	                return "Disabling";
 	            case ETH_STATE_ENABLED:
 	                return "Enabled";
-	            case ETH_STATE_ENABLING:
-	                return "Enabling";
 	            case ETH_STATE_UNKNOWN:
 	                return "Unknown";
 	            default:
