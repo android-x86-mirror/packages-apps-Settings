@@ -2034,4 +2034,6 @@ found in the list of installed applications.</string>
 <string name="eth_conf_summary">Configure Ethernet Devices</string>
 <string name="eth_mask">Netmask</string>
 <string name="eth_toggle_summary_off">Turn off Ethernet</string>
+<string name="proxy_setting">Proxy Setting</string>
+<string name="proxy_setting_summary">Configure Proxy</string>
 </resources>
