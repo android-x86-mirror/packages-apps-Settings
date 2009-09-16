@@ -30,6 +30,15 @@
         </com.android.settings.IconPreferenceScreen>
 
         <com.android.settings.IconPreferenceScreen
+            android:title="@string/proxy_setting"
+            android:summary="@string/proxy_setting_summary">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.ProxySelector" />
+        </com.android.settings.IconPreferenceScreen>
+
+        <com.android.settings.IconPreferenceScreen
             android:key="call_settings"
             settings:icon="@drawable/ic_settings_call"
             android:title="@string/call_settings_title">

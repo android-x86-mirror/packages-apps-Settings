@@ -2170,4 +2170,8 @@ found in the list of installed applications.</string>
 
     <!-- Name to assign to a Network Access Point that was saved without a name -->
     <string name="untitled_apn">Untitled</string>
+
+    <!-- Proxy settings -->
+    <string name="proxy_setting">Proxy settings</string>
+    <string name="proxy_setting_summary">Configure a proxy to access Internet</string>
 </resources>
