@@ -37,6 +37,15 @@
                 android:targetClass="com.android.settings.EthernetSettings" />
         </PreferenceScreen>
 
+       <PreferenceScreen
+            android:title="@string/proxy_setting"
+            android:summary="@string/proxy_setting_summary">
+            <intent
+                android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.ProxySelector" />
+        </PreferenceScreen>
+
         <PreferenceScreen
             android:key="call_settings"
             android:title="@string/call_settings_title"

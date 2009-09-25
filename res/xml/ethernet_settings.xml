@@ -28,14 +28,4 @@
             android:summary="@string/eth_conf_summary"
             android:key="eth_config"
             android:persistent="false" />
-
-       <PreferenceScreen
-            android:title="@string/proxy_setting"
-            android:summary="@string/proxy_setting_summary">
-            <intent
-                android:action="android.intent.action.MAIN"
-                android:targetPackage="com.android.settings"
-                android:targetClass="com.android.settings.ProxySelector" />
-        </PreferenceScreen>
-
 </PreferenceScreen>
