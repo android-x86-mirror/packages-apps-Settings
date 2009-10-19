@@ -35,5 +35,11 @@
             android:summaryOn="@string/auto_punctuate_summary"
             android:summaryOff="@string/auto_punctuate_summary"
             android:persistent="false"/>
+    <CheckBoxPreference
+            android:key="softkeyboard"
+            android:title="@string/softkeyboard_enable"
+            android:summaryOn="@string/softkeyboard_enable_summary"
+            android:summaryOff="@string/softkeyboard_enable_summary"
+            android:persistent="false"/>
             
 </PreferenceScreen>
