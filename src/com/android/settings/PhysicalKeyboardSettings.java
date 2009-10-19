@@ -30,6 +30,7 @@ public class PhysicalKeyboardSettings extends PreferenceActivity {
             "auto_caps",
             "auto_replace",
             "auto_punctuate",
+            "softkeyboard",
     };
     
     // Note: Order of this array should correspond to the order of the above array
@@ -37,6 +38,7 @@ public class PhysicalKeyboardSettings extends PreferenceActivity {
             System.TEXT_AUTO_CAPS,
             System.TEXT_AUTO_REPLACE,
             System.TEXT_AUTO_PUNCTUATE,
+            System.SOFTKEYBOARD,
     };
 
     // Note: Order of this array should correspond to the order of the above array
@@ -44,6 +46,7 @@ public class PhysicalKeyboardSettings extends PreferenceActivity {
             1,
             1,
             1,
+            0,
     };
 
     @Override
