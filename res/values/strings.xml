@@ -2528,4 +2528,7 @@ found in the list of installed applications.</string>
     <string name="sound_category_calls_title">Incoming calls</string>
     <string name="sound_category_notification_title">Notifications</string>
     <string name="sound_category_feedback_title">Feedback</string>
+
+    <string name="softkeyboard_enable">SoftKeyBoard Enable</string>
+    <string name="softkeyboard_enable_summary">Enable SoftKeyBoard</string>
 </resources>
