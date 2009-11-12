@@ -2176,4 +2176,6 @@ found in the list of installed applications.</string>
     <string name="proxy_setting_summary">Configure a proxy to access Internet</string>
     <string name="softkeyboard_enable">SoftKeyBoard Enable</string>
     <string name="softkeyboard_enable_summary">Enable SoftKeyBoard</string>
+    <string name="keyboard_layout_title">Keyboard layout setting</string>
+    <string name="keyboard_layout_summary">Choose a keyboard layout</string>
 </resources>
