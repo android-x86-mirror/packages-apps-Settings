@@ -256,6 +256,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="KeyboardPicker" android:label="@string/keyboard_layout_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.settings.LOCALE_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.VOICE_LAUNCH" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="LanguageSettings"
                 android:label="@string/language_keyboard_settings_title"
                 android:clearTaskOnLaunch="true"

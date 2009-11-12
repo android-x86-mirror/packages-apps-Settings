@@ -29,6 +29,14 @@
     </PreferenceScreen>
 
     <PreferenceScreen
+            android:title="@string/keyboard_layout_title"
+            android:summary="@string/keyboard_layout_summary">
+        <intent android:action="android.intent.action.MAIN"
+                android:targetPackage="com.android.settings"
+                android:targetClass="com.android.settings.KeyboardPicker" />
+    </PreferenceScreen>
+
+    <PreferenceScreen
             android:title="@string/user_dict_settings_title"
             android:summary="@string/user_dict_settings_summary">
         <intent android:action="android.intent.action.MAIN"
