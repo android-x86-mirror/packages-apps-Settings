@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2009 The Android-x86 Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.android.settings;
 
 import java.util.ArrayList;
@@ -31,10 +47,12 @@ public class KeyboardPicker extends ListActivity {
         mKeyboardLayouts.put("Finnish", "fn");
         mKeyboardLayouts.put("French", "fr");
         mKeyboardLayouts.put("German", "de");
-        mKeyboardLayouts.put("Ireland", "Ireland");
+        mKeyboardLayouts.put("Ireland", "uk");
         mKeyboardLayouts.put("Japanese", "jp");
-        mKeyboardLayouts.put("Russia", "ru");
-        mKeyboardLayouts.put("Spanish(Latin America)", "spanish_latin");
+        mKeyboardLayouts.put("Russian", "ru");
+        mKeyboardLayouts.put("Spanish(Latin America)", "es_latin");
+        mKeyboardLayouts.put("Swedish", "fn");
+        mKeyboardLayouts.put("United Kingdom", "uk");
 
         mKeyboardList = new ArrayList<String>(mKeyboardLayouts.keySet());
         ArrayAdapter<String> adapter =
@@ -44,8 +62,7 @@ public class KeyboardPicker extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         String kb = mKeyboardList.get(position);
-        String name = mKeyboardLayouts.get(kb);
-        SystemProperties.set("persist.sys.keylayout", name);
+        SystemProperties.set("persist.sys.keylayout", mKeyboardLayouts.get(kb));
         Toast.makeText(this, "Set keyboard layout to " + kb +
                 ".\nPlease reboot your machine to enable the new keyboard layout.", Toast.LENGTH_LONG).show();
     }
