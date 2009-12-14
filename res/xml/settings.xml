@@ -31,7 +31,7 @@
 
         <com.android.settings.IconPreferenceScreen
             android:title="@string/proxy_setting"
-            android:summary="@string/proxy_setting_summary">
+            settings:icon="@drawable/ic_settings_proxy">
             <intent
                 android:action="android.intent.action.MAIN"
                 android:targetPackage="com.android.settings"
