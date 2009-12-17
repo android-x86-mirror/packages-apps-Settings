@@ -46,7 +46,7 @@ public class PhysicalKeyboardSettings extends PreferenceActivity {
             1,
             1,
             1,
-            1,
+            0,
     };
 
     @Override
