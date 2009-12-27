@@ -109,6 +109,7 @@ AdapterView.OnItemSelectedListener, View.OnClickListener{
 				mIpaddr.setText(mEthInfo.getIpAddress());
 				mGw.setText(mEthInfo.getRouteAddr());
 				mDns.setText(mEthInfo.getDnsAddr());
+				mMask.setText(mEthInfo.getNetMask());
 				if (mEthInfo.getConnectMode().equals(EthernetDevInfo.ETH_CONN_MODE_DHCP))
 				{
 					mIpaddr.setEnabled(false);
