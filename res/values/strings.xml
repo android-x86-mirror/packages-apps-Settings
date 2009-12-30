@@ -2173,11 +2173,12 @@ found in the list of installed applications.</string>
 
     <!-- Proxy settings -->
     <string name="proxy_setting">Proxy settings</string>
-    <string name="proxy_setting_summary">Configure a proxy to access Internet</string>
+
     <string name="softkeyboard_enable">SoftKeyBoard Enable</string>
     <string name="softkeyboard_enable_summary">Enable SoftKeyBoard</string>
     <string name="keyboard_layout_title">Keyboard layout setting</string>
     <string name="keyboard_layout_summary">Choose a keyboard layout</string>
+
     <!-- Ethernet configuration dialog -->
     <string name="eth_config_title">Configure Ethernet device</string>
     <string name="eth_setting">Ethernet setting</string>
@@ -2190,10 +2191,7 @@ found in the list of installed applications.</string>
     <string name="eth_ipaddr">IP address</string>
     <string name="eth_quick_toggle_title">Ethernet</string>
     <string name="eth_quick_toggle_summary">Turn on Ethernet</string>
-    <string name="eth_conf_save">Save</string>
-    <string name="eth_conf_cancel">Cancel</string>
     <string name="eth_radio_ctrl_title">Ethernet configuration</string>
-    <string name="eth_radio_ctrl_summary">Configure Ethernet devices</string>
     <string name="eth_conf_perf_title">Ethernet configuration</string>
     <string name="eth_conf_summary">Configure Ethernet devices</string>
     <string name="eth_mask">Netmask</string>

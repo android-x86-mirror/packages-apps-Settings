@@ -91,8 +91,8 @@ AdapterView.OnItemSelectedListener, View.OnClickListener{
         });
 
 		this.setInverseBackgroundForced(true);
-		this.setButton(BUTTON_POSITIVE, context.getText(R.string.eth_conf_save), this);
-		this.setButton(BUTTON_NEGATIVE, context.getText(R.string.eth_conf_cancel), this);
+		this.setButton(BUTTON_POSITIVE, context.getText(R.string.menu_save), this);
+		this.setButton(BUTTON_NEGATIVE, context.getText(R.string.menu_cancel), this);
 		String[] Devs = mEthEnabler.getManager().getDeviceNameList();
 		if (Devs != null) {
 			Log.i(TAG,"found device: " + Devs[0]);
