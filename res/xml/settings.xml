@@ -31,7 +31,7 @@
 
         <com.android.settings.IconPreferenceScreen
             android:title="@string/eth_radio_ctrl_title"
-            android:summary="@string/eth_radio_ctrl_summary">
+            settings:icon="@drawable/ic_settings_ethernet">
             <intent
                 android:action="android.intent.action.MAIN"
                 android:targetPackage="com.android.settings"
