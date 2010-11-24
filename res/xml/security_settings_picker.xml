@@ -20,6 +20,11 @@
         android:key="security_picker_category"
         android:title="@string/lock_settings_picker_title">
 
+        <CheckBoxPreference
+            android:key="disablelockpattern"
+            android:title="@string/lockpattern_settings_disable_lock_pattern_title"
+            android:summary="@string/lockpattern_settings_disable_lock_pattern_summary"/>
+
         <PreferenceScreen
             android:key="unlock_set_none"
             android:title="@string/unlock_set_unlock_none_title"

@@ -21,14 +21,21 @@ import com.android.internal.widget.LockPatternUtils;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ContentResolver;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 
 public class ChooseLockGeneric extends PreferenceActivity {
     private static final int MIN_PASSWORD_LENGTH = 4;
+
+    private static final String KEY_DISABLE_PATTERN = "disablelockpattern";
+
     private static final String KEY_UNLOCK_SET_NONE = "unlock_set_none";
     private static final String KEY_UNLOCK_SET_PIN = "unlock_set_pin";
     private static final String KEY_UNLOCK_SET_PASSWORD = "unlock_set_password";
@@ -36,6 +43,9 @@ public class ChooseLockGeneric extends PreferenceActivity {
     private static final int CONFIRM_EXISTING_REQUEST = 100;
     private static final String PASSWORD_CONFIRMED = "password_confirmed";
     private static final String CONFIRM_CREDENTIALS = "confirm_credentials";
+
+    private CheckBoxPreference mDisablePattern;
+    ContentResolver m_cr;
 
     private ChooseLockSettingsHelper mChooseLockSettingsHelper;
     private DevicePolicyManager mDPM;
@@ -61,6 +71,26 @@ public class ChooseLockGeneric extends PreferenceActivity {
         } else {
             updatePreferencesOrFinish();
         }
+
+        m_cr = this.getContentResolver();
+        // disable pattern
+        mDisablePattern = (CheckBoxPreference) getPreferenceManager().findPreference(KEY_DISABLE_PATTERN);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mDisablePattern != null) {
+            mDisablePattern.setChecked(Settings.System.getInt(m_cr, Settings.System.LOCK_PATTERN_DISABLE, 0) == 1);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if ( mDisablePattern != null ) {
+            Settings.System.putInt(m_cr, Settings.System.LOCK_PATTERN_DISABLE, mDisablePattern.isChecked() ? 1 : 0);
+        }
+        super.onDestroy();
     }
 
     @Override

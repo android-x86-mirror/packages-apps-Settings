@@ -659,6 +659,8 @@
     <string name="lockpattern_settings_enable_title" msgid="6920616873671115281">"需要解鎖圖形"</string>
     <string name="lockpattern_settings_enable_summary" msgid="1165707416664252167">"必須畫出解鎖圖形以解鎖螢幕"</string>
     <string name="lockpattern_settings_enable_visible_pattern_title" msgid="104851667540971729">"使用可見圖形"</string>
+    <string name="lockpattern_settings_disable_lock_pattern_title">不鎖住螢幕</string>
+    <string name="lockpattern_settings_disable_lock_pattern_summary">閒置時不要鎖住螢幕</string>
     <string name="lockpattern_settings_enable_tactile_feedback_title" msgid="972174133075372341">"使用觸覺回饋"</string>
     <string name="lockpattern_settings_choose_lock_pattern" msgid="1652352830005653447">"設定解鎖圖形"</string>
     <string name="lockpattern_settings_change_lock_pattern" msgid="1123908306116495545">"變更解鎖圖形"</string>
