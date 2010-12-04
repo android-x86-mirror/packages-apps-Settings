@@ -1459,6 +1459,14 @@
     <!-- Security & location settings screen, setting summary when Assisted GPS check box is clear -->
     <string name="assisted_gps_disabled">Use server to assist GPS (uncheck to improve GPS performance)</string>
 
+    <!-- Advanced settings -->
+    <string name="advanced_settings">Advanced settings</string>
+    <string name="advanced_settings_title">Advanced settings</string>
+    <string name="remove_power_off_dialog_title">Remove power off dialog</string>
+    <string name="remove_power_off_dialog_summary">Do not show power off choices</string>
+    <string name="disable_power_off_confirmation_title">Disable power off confirmation</string>
+    <string name="disable_power_off_confirmation_summary">Do not request confirmation</string>
+
     <!-- About --> <skip />
     <!-- Main settings screen, setting title for the user to go into the About phone screen -->
     <string name="about_settings">About phone</string>

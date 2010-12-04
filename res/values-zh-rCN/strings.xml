@@ -614,6 +614,12 @@
     <string name="assisted_gps" msgid="4649317129586736885">"使用增强型 GPS"</string>
     <string name="assisted_gps_enabled" msgid="8751899609589792803">"使用服务器来辅助 GPS（取消选中可降低网络使用率）"</string>
     <string name="assisted_gps_disabled" msgid="6982698333968010748">"使用服务器来辅助 GPS（取消选中可提高 GPS 性能）"</string>
+    <string name="advanced_settings">"高级设置"</string>
+    <string name="advanced_settings_title">"高级设置"</string>
+    <string name="remove_power_off_dialog_title">"快速关机"</string>
+    <string name="remove_power_off_dialog_summary">"直接关机，不显示菜单"</string>
+    <string name="disable_power_off_confirmation_title">"无关机确认"</string>
+    <string name="disable_power_off_confirmation_summary">"关机前不必再确认"</string>
     <string name="about_settings" msgid="1743378368185371685">"关于手机"</string>
     <string name="about_settings_summary" msgid="3302263393543848667">"查看法律信息、手机状态和软件版本"</string>
     <string name="legal_information" msgid="5769301644270604095">"法律信息"</string>
