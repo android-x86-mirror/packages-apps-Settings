@@ -619,7 +619,7 @@
     <string name="remove_power_off_dialog_title">"快速關機"</string>
     <string name="remove_power_off_dialog_summary">"不顯示關機選單，直接關機"</string>
     <string name="disable_power_off_confirmation_title">"無關機確認"</string>
-    <string name="disable_power_off_confirmation_summary">"關機前不必再確認"</string>
+    <string name="disable_power_off_confirmation_summary">"關機或重新開機前不必再確認"</string>
     <string name="about_settings" msgid="1743378368185371685">"關於手機"</string>
     <string name="about_settings_summary" msgid="3302263393543848667">"檢視法律資訊、手機狀態、軟體版本"</string>
     <string name="legal_information" msgid="5769301644270604095">"法律資訊"</string>

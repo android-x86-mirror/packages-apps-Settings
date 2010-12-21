@@ -1464,7 +1464,7 @@
     <string name="advanced_settings_title">Advanced settings</string>
     <string name="remove_power_off_dialog_title">Remove power off dialog</string>
     <string name="remove_power_off_dialog_summary">Do not show power off choices</string>
-    <string name="disable_power_off_confirmation_title">Disable power off confirmation</string>
+    <string name="disable_power_off_confirmation_title">Disable power off / reboot confirmation</string>
     <string name="disable_power_off_confirmation_summary">Do not request confirmation</string>
 
     <!-- About --> <skip />
