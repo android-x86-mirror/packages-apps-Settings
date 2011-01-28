@@ -47,6 +47,7 @@
     <item msgid="7489864775127957179">"5분"</item>
     <item msgid="2314124409517439288">"10분"</item>
     <item msgid="6864027152847611413">"30분"</item>
+    <item msgid="1781492122915870416">"시간제한 없음"</item>
   </string-array>
   <string-array name="lock_after_timeout_entries">
     <item msgid="5416834369150305288">"즉시"</item>
