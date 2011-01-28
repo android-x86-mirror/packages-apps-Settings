@@ -46,6 +46,7 @@
     <item msgid="7001195990902244174">"2分"</item>
     <item msgid="5721688686241190620">"10分"</item>
     <item msgid="7156442995039264948">"30分"</item>
+    <item msgid="1781492122915870416">"常時点灯"</item>
   </string-array>
   <string-array name="tts_rate_entries">
     <item msgid="6041212618892492920">"非常に遅い"</item>

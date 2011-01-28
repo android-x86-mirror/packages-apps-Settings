@@ -46,6 +46,7 @@
     <item msgid="7001195990902244174">"2분"</item>
     <item msgid="5721688686241190620">"10분"</item>
     <item msgid="7156442995039264948">"30분"</item>
+    <item msgid="1781492122915870416">"시간제한 없음"</item>
   </string-array>
   <string-array name="tts_rate_entries">
     <item msgid="6041212618892492920">"매우 느림"</item>

@@ -46,6 +46,7 @@
     <item msgid="7001195990902244174">"2 分钟"</item>
     <item msgid="5721688686241190620">"10 分钟"</item>
     <item msgid="7156442995039264948">"30 分钟"</item>
+    <item msgid="1781492122915870416">"从不待机"</item>
   </string-array>
   <string-array name="tts_rate_entries">
     <item msgid="6041212618892492920">"很慢"</item>

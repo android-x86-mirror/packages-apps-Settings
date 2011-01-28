@@ -46,6 +46,7 @@
     <item msgid="7001195990902244174">"2 минуты"</item>
     <item msgid="5721688686241190620">"10 минут"</item>
     <item msgid="7156442995039264948">"30 минут"</item>
+    <item msgid="1781492122915870416">"Не отключать"</item>
   </string-array>
   <string-array name="tts_rate_entries">
     <item msgid="6041212618892492920">"Очень медленная"</item>
