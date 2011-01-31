@@ -2539,8 +2539,9 @@ found in the list of installed applications.</string>
     <string name="sound_category_notification_title">Notifications</string>
     <string name="sound_category_feedback_title">Feedback</string>
 
-    <string name="softkeyboard_enable">SoftKeyBoard Enable</string>
-    <string name="softkeyboard_enable_summary">Enable SoftKeyBoard</string>
+    <string name="disable_softkeyboard">Disable SoftKeyBoard</string>
+    <string name="softkeyboard_disabled">SoftKeyBoard disabled</string>
+    <string name="softkeyboard_enabled">SoftKeyBoard enabled</string>
     <string name="keyboard_layout_title">Keyboard layout setting</string>
     <string name="keyboard_layout_summary">Choose a keyboard layout</string>
 
