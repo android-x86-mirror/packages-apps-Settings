@@ -37,9 +37,9 @@
             android:persistent="false"/>
     <CheckBoxPreference
             android:key="softkeyboard"
-            android:title="@string/softkeyboard_enable"
-            android:summaryOn="@string/softkeyboard_enable_summary"
-            android:summaryOff="@string/softkeyboard_enable_summary"
+            android:title="@string/disable_softkeyboard"
+            android:summaryOn="@string/softkeyboard_disabled"
+            android:summaryOff="@string/softkeyboard_enabled"
             android:persistent="false"/>
             
 </PreferenceScreen>
