@@ -63,6 +63,7 @@ import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.core.gateway.SettingsGateway;
 import com.android.settings.dashboard.DashboardFeatureProvider;
 import com.android.settings.dashboard.DashboardSummary;
+import com.android.settings.development.RootAccessPreferenceController;
 import com.android.settings.overlay.FeatureFactory;
 import com.android.settings.search.DeviceIndexFeatureProvider;
 import com.android.settings.wfd.WifiDisplaySettings;
@@ -692,6 +693,11 @@ public class SettingsActivity extends SettingsDrawerActivity
         somethingChanged = setTileEnabled(changedList, new ComponentName(packageName,
                         Settings.DateTimeSettingsActivity.class.getName()),
                 !UserManager.isDeviceInDemoMode(this), isAdmin)
+                || somethingChanged;
+
+        somethingChanged = setTileEnabled(changedList, new ComponentName(packageName,
+                         Settings.SuperuserActivity.class.getName()),
+                RootAccessPreferenceController.isRootForAppsEnabled(), isAdmin)
                 || somethingChanged;
 
         final boolean showDev = DevelopmentSettingsEnabler.isDevelopmentSettingsEnabled(this)

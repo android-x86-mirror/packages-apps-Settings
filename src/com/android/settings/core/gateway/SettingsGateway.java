@@ -57,6 +57,7 @@ import com.android.settings.connecteddevice.AdvancedConnectedDeviceDashboardFrag
 import com.android.settings.connecteddevice.ConnectedDeviceDashboardFragment;
 import com.android.settings.connecteddevice.PreviouslyConnectedDeviceDashboardFragment;
 import com.android.settings.connecteddevice.usb.UsbDetailsFragment;
+import com.android.settings.cyanogenmod.superuser.PolicyNativeFragment;
 import com.android.settings.datausage.DataUsageList;
 import com.android.settings.datausage.DataUsageSummary;
 import com.android.settings.datausage.DataUsageSummaryLegacy;
@@ -202,6 +203,7 @@ public class SettingsGateway {
             NotificationAccessSettings.class.getName(),
             ZenAccessSettings.class.getName(),
             ZenModeAutomationSettings.class.getName(),
+            PolicyNativeFragment.class.getName(),
             PrintSettingsFragment.class.getName(),
             PrintJobSettingsFragment.class.getName(),
             TrustedCredentialsSettings.class.getName(),
