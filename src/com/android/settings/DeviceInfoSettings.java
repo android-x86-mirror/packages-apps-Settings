@@ -19,6 +19,7 @@ package com.android.settings;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.GLES20;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -60,6 +61,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
     private static final String PROPERTY_URL_SAFETYLEGAL = "ro.url.safetylegal";
     private static final String PROPERTY_SELINUX_STATUS = "ro.build.selinux";
     private static final String KEY_KERNEL_VERSION = "kernel_version";
+    private static final String KEY_OPENGL_VERSION = "opengl_version";
     private static final String KEY_BUILD_NUMBER = "build_number";
     private static final String KEY_DEVICE_MODEL = "device_model";
     private static final String KEY_SELINUX_STATUS = "selinux_status";
@@ -103,6 +105,10 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
 
         addPreferencesFromResource(R.xml.device_info_settings);
 
+        String opengl_version = "GL Vendor: " + GLES20.glGetString(GLES20.GL_VENDOR) + "\n" +
+            "GL Renderer: " + GLES20.glGetString(GLES20.GL_RENDERER) + "\n" +
+            "GL Version: " + GLES20.glGetString(GLES20.GL_VERSION);
+
         setStringSummary(KEY_FIRMWARE_VERSION, Build.VERSION.RELEASE);
         findPreference(KEY_FIRMWARE_VERSION).setEnabled(true);
 
@@ -120,6 +126,7 @@ public class DeviceInfoSettings extends SettingsPreferenceFragment implements In
         setStringSummary(KEY_BUILD_NUMBER, Build.DISPLAY);
         findPreference(KEY_BUILD_NUMBER).setEnabled(true);
         findPreference(KEY_KERNEL_VERSION).setSummary(DeviceInfoUtils.getFormattedKernelVersion());
+        findPreference(KEY_OPENGL_VERSION).setSummary(opengl_version);
         setStringSummary(KEY_DEVICE_MANUFACTURER, Build.MANUFACTURER);
 
         if (!SELinux.isSELinuxEnabled()) {
