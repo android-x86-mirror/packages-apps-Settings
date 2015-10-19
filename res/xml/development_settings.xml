@@ -120,6 +120,11 @@
             android:fragment="com.android.settings.development.qstile.DevelopmentTileConfigFragment"
             settings:searchable="false" />
 
+        <ListPreference
+            android:key="root_access"
+            android:title="@string/root_access"
+            android:persistent="false" />
+
     <!-- Configure trust agent behavior -->
     <SwitchPreference
         android:key="security_setting_trust_agents_extend_unlock"
