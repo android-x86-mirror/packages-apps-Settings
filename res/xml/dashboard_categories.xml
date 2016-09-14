@@ -146,14 +146,6 @@
 
         <!-- Buttons -->
 
-        <!-- Apps Compatibility -->
-        <dashboard-tile
-                android:id="@+id/apps_compatibility_settings"
-                android:title="@string/apps_compatibility_title"
-                android:fragment="com.android.settings.AppsCompatibility"
-                android:icon="@drawable/ic_settings_applications"
-                />
-
         <!-- Storage -->
         <dashboard-tile
                 android:id="@+id/button_settings"
