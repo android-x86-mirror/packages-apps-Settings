@@ -222,7 +222,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 if (minimumDensity < 60) {
                     minimumDensity = 60;
                 }
-                for (int idx = 0; idx < 11; ++idx) {
+                for (int idx = 0; idx < 9; ++idx) {
                     int val = minimumDensity + factor * idx;
 
                     densityEntries[idx] = getString(R.string.lcd_density_value_format, val);
