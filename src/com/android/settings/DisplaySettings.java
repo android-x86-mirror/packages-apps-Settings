@@ -208,25 +208,24 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             if (UserHandle.myUserId() != UserHandle.USER_OWNER) {
                 interfacePrefs.removePreference(mLcdDensityPreference);
             } else {
-                int defaultDensity = getDefaultDensity();
                 int currentDensity = getCurrentDensity();
                 if (currentDensity < 10 || currentDensity >= 1000) {
-                    // Unsupported value, force default
-                    currentDensity = defaultDensity;
+                    // Unsupported value, force 160 DPI
+                    currentDensity = 160;
                 }
 
-                int factor = defaultDensity >= 480 ? 40 : 20;
-                int minimumDensity = defaultDensity - 4 * factor;
+                int factor = currentDensity >= 480 ? 40 : 20;
+                int minimumDensity = currentDensity - 5 * factor;
                 int currentIndex = -1;
-                String[] densityEntries = new String[7];
-                String[] densityValues = new String[7];
-                for (int idx = 0; idx < 7; ++idx) {
+                String[] densityEntries = new String[9];
+                String[] densityValues = new String[9];
+                if (minimumDensity < 60) {
+                    minimumDensity = 60;
+                }
+                for (int idx = 0; idx < 11; ++idx) {
                     int val = minimumDensity + factor * idx;
-                    int valueFormatResId = val == defaultDensity
-                            ? R.string.lcd_density_default_value_format
-                            : R.string.lcd_density_value_format;
 
-                    densityEntries[idx] = getString(valueFormatResId, val);
+                    densityEntries[idx] = getString(R.string.lcd_density_value_format, val);
                     densityValues[idx] = Integer.toString(val);
                     if (currentDensity == val) {
                         currentIndex = idx;
@@ -331,17 +330,6 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         mWakeWhenPluggedOrUnplugged =
                 (SwitchPreference) findPreference(KEY_WAKE_WHEN_PLUGGED_OR_UNPLUGGED);
         initPulse((PreferenceCategory) findPreference(KEY_CATEGORY_LIGHTS));
-    }
-
-    private int getDefaultDensity() {
-        IWindowManager wm = IWindowManager.Stub.asInterface(ServiceManager.checkService(
-                Context.WINDOW_SERVICE));
-        try {
-            return wm.getInitialDisplayDensity(Display.DEFAULT_DISPLAY);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return DisplayMetrics.DENSITY_DEVICE;
     }
 
     private int getCurrentDensity() {
@@ -460,9 +448,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     }
 
     private void updateLcdDensityPreferenceDescription(int currentDensity) {
-        final int summaryResId = currentDensity == getDefaultDensity()
-                ? R.string.lcd_density_default_value_format : R.string.lcd_density_value_format;
-        mLcdDensityPreference.setSummary(getString(summaryResId, currentDensity));
+        mLcdDensityPreference.setSummary(getString(R.string.lcd_density_value_format, currentDensity));
     }
 
     private void disableUnusableTimeouts(ListPreference screenTimeoutPreference) {
