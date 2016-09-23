@@ -1093,6 +1093,25 @@
                 android:value="true" />
         </activity>
 
+        <activity android:name="Settings$AppsCompatibilityActivity"
+                android:label="@string/apps_compatibility_title"
+                android:icon="@drawable/ic_settings_applications"
+                android:taskAffinity="">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter android:priority="6">
+                <action android:name="com.android.settings.action.SETTINGS" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.category"
+                android:value="com.android.settings.category.device" />
+            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+                android:value="com.android.settings.AppsCompatibility" />
+            <meta-data android:name="com.android.settings.PRIMARY_PROFILE_CONTROLLED"
+                android:value="true" />
+        </activity>
+
         <activity android:name="Settings$MemorySettingsActivity"
                 android:label="@string/memory_settings_title"
                 android:icon="@drawable/ic_settings_memory"
