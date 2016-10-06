@@ -16,8 +16,13 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
+                  xmlns:cm="http://schemas.android.com/apk/res/cyanogenmod.platform"
         android:title="@string/display_settings"
         settings:keywords="@string/keywords_display">
+
+    <PreferenceCategory
+            android:key="display"
+            android:title="@string/display_label">
 
         <PreferenceScreen
                 android:key="brightness"
@@ -31,6 +36,16 @@
                 android:title="@string/auto_brightness_title"
                 settings:keywords="@string/keywords_display_auto_brightness"
                 android:summary="@string/auto_brightness_summary" />
+
+        <!-- LiveDisplay -->
+        <org.cyanogenmod.internal.cmparts.CMPartsPreference
+            android:key="livedisplay"
+            cm:requiresFeature="org.cyanogenmod.livedisplay" />
+
+        <!-- Rotation -->
+        <org.cyanogenmod.internal.cmparts.CMPartsPreference
+            android:key="rotation"
+            cm:requiresFeature="android.hardware.sensor.accelerometer" />
 
         <!-- Hide night mode for now
         <ListPreference
@@ -95,10 +110,12 @@
                 android:title="@string/screen_zoom_title"
                 settings:keywords="@string/screen_zoom_keywords" />
 
+        <!-- Disable on CM
         <DropDownPreference
                 android:key="auto_rotate"
                 android:summary="%s"
                 android:title="@string/display_auto_rotate_title" />
+        -->
 
         <PreferenceScreen
                 android:key="wifi_display"
@@ -110,5 +127,23 @@
                 android:key="vr_display_pref"
                 android:summary="%s"
                 android:title="@string/display_vr_pref_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:key="lights"
+            android:title="@string/lights_label">
+
+        <!-- Battery light -->
+        <org.cyanogenmod.internal.cmparts.CMPartsPreference
+                android:key="battery_lights"
+                cm:requiresConfig="@*android:bool/config_intrusiveBatteryLed" />
+
+        <!-- Notification lights -->
+        <org.cyanogenmod.internal.cmparts.CMPartsPreference
+                android:key="notification_lights"
+                cm:requiresConfig="@*android:bool/config_intrusiveNotificationLed" />
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

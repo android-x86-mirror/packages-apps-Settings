@@ -32,6 +32,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WpsInfo;
 import android.nfc.NfcAdapter;
@@ -42,6 +43,7 @@ import android.provider.Settings;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceViewHolder;
 import android.text.Spannable;
+import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -54,6 +56,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
+
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.settings.LinkifyUtils;
@@ -101,6 +104,7 @@ public class WifiSettings extends RestrictedSettingsFragment
     private static final int MENU_ID_MODIFY = Menu.FIRST + 8;
     private static final int MENU_ID_WRITE_NFC = Menu.FIRST + 9;
     private static final int MENU_ID_CONFIGURE = Menu.FIRST + 10;
+    private static final int MENU_ID_DISCONNECT = Menu.FIRST + 11;
 
     public static final int WIFI_DIALOG_ID = 1;
     /* package */ static final int WPS_PBC_DIALOG_ID = 2;
@@ -111,6 +115,8 @@ public class WifiSettings extends RestrictedSettingsFragment
     private static final String SAVE_DIALOG_MODE = "dialog_mode";
     private static final String SAVE_DIALOG_ACCESS_POINT_STATE = "wifi_ap_state";
     private static final String SAVED_WIFI_NFC_DIALOG_STATE = "wifi_nfc_dlg_state";
+
+    private static final String PREF_KEY_EMPTY_WIFI_LIST = "wifi_empty_list";
 
     protected WifiManager mWifiManager;
     private WifiManager.ActionListener mConnectListener;
@@ -458,6 +464,15 @@ public class WifiSettings extends RestrictedSettingsFragment
                     // be used again, ephemerally).
                     menu.add(Menu.NONE, MENU_ID_FORGET, 0, R.string.wifi_menu_forget);
                 }
+
+                // Wifi extension requirement
+                // current connected AP, add a disconnect option to it
+                if (getResources().getBoolean(R.bool.config_auto_connect_wifi_enabled)) {
+                    if (mSelectedAccessPoint.isActive()) {
+                        menu.add(Menu.NONE, MENU_ID_DISCONNECT, 0, R.string.wifi_menu_disconnect);
+                    }
+                }
+
                 if (mSelectedAccessPoint.isSaved()) {
                     menu.add(Menu.NONE, MENU_ID_MODIFY, 0, R.string.wifi_menu_modify);
                     NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
@@ -499,7 +514,11 @@ public class WifiSettings extends RestrictedSettingsFragment
             case MENU_ID_WRITE_NFC:
                 showDialog(WRITE_NFC_DIALOG_ID);
                 return true;
-
+            // Wifi extension requirement
+            case MENU_ID_DISCONNECT: {
+                mWifiManager.disconnect();
+                return true;
+            }
         }
         return super.onContextItemSelected(item);
     }
@@ -551,6 +570,15 @@ public class WifiSettings extends RestrictedSettingsFragment
         showDialog(WIFI_DIALOG_ID);
     }
 
+    private boolean isPasspointWifi(AccessPoint ap) {
+        if (ap != null && ap.getConfig() != null) {
+            WifiEnterpriseConfig entConfig = ap.getConfig().enterpriseConfig;
+            return (entConfig != null)
+                && (entConfig.getEapMethod() != WifiEnterpriseConfig.Eap.NONE);
+        }
+        return false;
+    }
+
     @Override
     public Dialog onCreateDialog(int dialogId) {
         switch (dialogId) {
@@ -567,8 +595,19 @@ public class WifiSettings extends RestrictedSettingsFragment
                 }
                 // If it's null, fine, it's for Add Network
                 mSelectedAccessPoint = ap;
-                mDialog = new WifiDialog(getActivity(), this, ap, mDialogMode,
-                        /* no hide submit/connect */ false);
+                if (getResources().getBoolean(
+                        com.android.internal.R.bool.config_passpoint_setting_on)) {
+                    //always hide the "forget" button for an passpoint hotspot
+                    boolean hideForget = (ap == null || isEditabilityLockedDown(getActivity(),
+                            ap.getConfig()));
+                    hideForget = hideForget || isPasspointWifi(ap);
+                    Log.d(TAG, "Passpoint hotspot ? " + (isPasspointWifi(ap) ? "yes":"no"));
+                    mDialog = new WifiDialog(getActivity(), this, (hideForget ? null : ap),
+                            mDialogMode,/* no hide submit/connect */ false);
+                } else {
+                    mDialog = new WifiDialog(getActivity(), this, ap, mDialogMode,
+                            /* no hide submit/connect */ false);
+                }
                 return mDialog;
             case WPS_PBC_DIALOG_ID:
                 return new WpsDialog(getActivity(), WpsInfo.PBC);
@@ -612,7 +651,6 @@ public class WifiSettings extends RestrictedSettingsFragment
                 // AccessPoints are automatically sorted with TreeSet.
                 final Collection<AccessPoint> accessPoints =
                         mWifiTracker.getAccessPoints();
-                getPreferenceScreen().removeAll();
 
                 boolean hasAvailableAccessPoints = false;
                 int index = 0;
@@ -621,6 +659,9 @@ public class WifiSettings extends RestrictedSettingsFragment
                     // Ignore access points that are out of range.
                     if (accessPoint.getLevel() != -1) {
                         String key = accessPoint.getBssid();
+                        if (TextUtils.isEmpty(key)) {
+                            key = accessPoint.getSsidStr();
+                        }
                         hasAvailableAccessPoints = true;
                         LongPressAccessPointPreference pref = (LongPressAccessPointPreference)
                                 getCachedPreference(key);
@@ -658,6 +699,7 @@ public class WifiSettings extends RestrictedSettingsFragment
                     pref.setSelectable(false);
                     pref.setSummary(R.string.wifi_empty_list_wifi_on);
                     pref.setOrder(0);
+                    pref.setKey(PREF_KEY_EMPTY_WIFI_LIST);
                     getPreferenceScreen().addPreference(pref);
                     mAddPreference.setOrder(1);
                     getPreferenceScreen().addPreference(mAddPreference);
@@ -868,8 +910,19 @@ public class WifiSettings extends RestrictedSettingsFragment
     }
 
     @Override
-    public void onAccessPointChanged(AccessPoint accessPoint) {
-        ((LongPressAccessPointPreference) accessPoint.getTag()).refresh();
+    public void onAccessPointChanged(final AccessPoint accessPoint) {
+        View view = getView();
+        if (view != null) {
+            view.post(new Runnable() {
+                @Override
+                public void run() {
+                    Object tag = accessPoint.getTag();
+                    if (tag != null) {
+                        ((LongPressAccessPointPreference) tag).refresh();
+                    }
+                }
+            });
+        }
     }
 
     @Override
