@@ -101,11 +101,13 @@ public class ApnEditor extends SettingsPreferenceFragment
 
     private String mCurMnc;
     private String mCurMcc;
+    private boolean mDisableEditor = false;
 
     private Uri mUri;
     private Cursor mCursor;
     private boolean mNewApn;
     private boolean mFirstTime;
+    private boolean mApnDisable = false;
     private int mSubId;
     private Resources mRes;
     private TelephonyManager mTelephonyManager;
@@ -170,6 +172,8 @@ public class ApnEditor extends SettingsPreferenceFragment
     private static final int MVNO_MATCH_DATA_INDEX = 22;
     private static final int EDITED_INDEX = 23;
 
+    private static final int DEFAULT_IPV4V6_INDEX = 2;
+
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -216,6 +220,7 @@ public class ApnEditor extends SettingsPreferenceFragment
         final String action = intent.getAction();
         mSubId = intent.getIntExtra(ApnSettings.SUB_ID,
                 SubscriptionManager.INVALID_SUBSCRIPTION_ID);
+        mDisableEditor = intent.getBooleanExtra("DISABLE_EDITOR", false);
 
         mFirstTime = icicle == null;
         mReadOnlyApn = false;
@@ -499,9 +504,13 @@ public class ApnEditor extends SettingsPreferenceFragment
             } else {
                 mAuthType.setValue(null);
             }
-
-            mProtocol.setValue(mCursor.getString(PROTOCOL_INDEX));
-            mRoamingProtocol.setValue(mCursor.getString(ROAMING_PROTOCOL_INDEX));
+            if (mNewApn && getResources().getBoolean(R.bool.config_default_apn_for_new)) {
+                mProtocol.setValueIndex(DEFAULT_IPV4V6_INDEX);
+                mRoamingProtocol.setValueIndex(DEFAULT_IPV4V6_INDEX);
+            } else {
+                mProtocol.setValue(mCursor.getString(PROTOCOL_INDEX));
+                mRoamingProtocol.setValue(mCursor.getString(ROAMING_PROTOCOL_INDEX));
+            }
             mCarrierEnabled.setChecked(mCursor.getInt(CARRIER_ENABLED_INDEX)==1);
             mBearerInitialVal = mCursor.getInt(BEARER_INDEX);
 
@@ -534,6 +543,10 @@ public class ApnEditor extends SettingsPreferenceFragment
             if (mNewApn && mMvnoTypeStr != null && mMvnoMatchDataStr != null) {
                 mMvnoType.setValue(mMvnoTypeStr);
                 mMvnoMatchData.setText(mMvnoMatchDataStr);
+            }
+            String localizedName = ApnSettings.getLocalizedName(getActivity(), mCursor,NAME_INDEX);
+            if (!TextUtils.isEmpty(localizedName)) {
+                mName.setText(localizedName);
             }
         }
 
@@ -577,6 +590,24 @@ public class ApnEditor extends SettingsPreferenceFragment
             mCarrierEnabled.setEnabled(true);
         } else {
             mCarrierEnabled.setEnabled(false);
+        }
+
+        String mccMnc = mMcc.getText() + mMnc.getText();
+        for (String plmn : getResources().getStringArray(R.array.plmn_list_for_apn_disable)) {
+            if (plmn.equals(mccMnc) && !mNewApn) {
+                mApnDisable = true;
+                Log.d(TAG, "APN is China Telecom's.");
+                break;
+            }
+        }
+        if (mDisableEditor) {
+            if (mApnDisable) {
+                mApn.setEnabled(false);
+                Log.d(TAG, "Apn Name can't be edited.");
+            } else {
+                getPreferenceScreen().setEnabled(false);
+                Log.d(TAG, "ApnEditor form is disabled.");
+            }
         }
     }
 
@@ -654,6 +685,11 @@ public class ApnEditor extends SettingsPreferenceFragment
                     mMvnoMatchData.setText(numeric + "x");
                 } else if (values[mvnoIndex].equals("GID")) {
                     mMvnoMatchData.setText(mTelephonyManager.getGroupIdLevel1());
+                } else if (values[mvnoIndex].equals("ICCID")) {
+                    if (mMvnoMatchDataStr != null) {
+                        Log.d(TAG, "mMvnoMatchDataStr: " + mMvnoMatchDataStr);
+                        mMvnoMatchData.setText(mMvnoMatchDataStr);
+                    }
                 }
             }
 
@@ -705,10 +741,9 @@ public class ApnEditor extends SettingsPreferenceFragment
             }
             mMvnoType.setValue((String) newValue);
             mMvnoType.setSummary(mvno);
-        }
-        if (preference.equals(mPassword)) {
+        } else if (preference.equals(mPassword)) {
             preference.setSummary(starify(newValue != null ? String.valueOf(newValue) : ""));
-        } else if (preference.equals(mCarrierEnabled) || preference.equals(mBearerMulti)) {
+        } else if (preference.equals(mCarrierEnabled)) {
             // do nothing
         } else {
             preference.setSummary(checkNull(newValue != null ? String.valueOf(newValue) : null));
@@ -720,8 +755,12 @@ public class ApnEditor extends SettingsPreferenceFragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        if (mDisableEditor && !mApnDisable) {
+            Log.d(TAG, "Form is disabled. Do not create the options menu.");
+            return;
+        }
         // If it's a new APN, then cancel will delete the new entry in onPause
-        if (!mNewApn && !mReadOnlyApn) {
+        if (!mNewApn && !mDisableEditor && !mReadOnlyApn) {
             menu.add(0, MENU_DELETE, 0, R.string.menu_delete)
                 .setIcon(R.drawable.ic_menu_delete);
         }
@@ -786,6 +825,13 @@ public class ApnEditor extends SettingsPreferenceFragment
      * @return true if the data was saved
      */
     private boolean validateAndSave(boolean force) {
+
+        // If the form is not editable, do nothing and return.
+        if (mDisableEditor && !mApnDisable){
+            Log.d(TAG, "Form is disabled. Nothing to save.");
+            return true;
+        }
+
         String name = checkNotSet(mName.getText());
         String apn = checkNotSet(mApn.getText());
         String mcc = checkNotSet(mMcc.getText());

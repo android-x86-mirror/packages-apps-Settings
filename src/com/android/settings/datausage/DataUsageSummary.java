@@ -18,6 +18,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ActivityNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.INetworkStatsSession;
 import android.net.NetworkTemplate;
@@ -38,6 +39,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -138,6 +140,21 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        final Context context = getActivity();
+        final MenuItem networkaccess = menu.findItem(R.id.data_usage_menu_app_network_access);
+        if (networkaccess == null) {
+            return;
+        }
+
+        if (context.getResources().getBoolean(R.bool.config_app_network_access_enabled)) {
+            networkaccess.setVisible(true);
+        } else {
+            networkaccess.setVisible(false);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.data_usage_menu_cellular_networks: {
@@ -145,6 +162,19 @@ public class DataUsageSummary extends DataUsageBase implements Indexable, DataUs
                 intent.setComponent(new ComponentName("com.android.phone",
                         "com.android.phone.MobileNetworkSettings"));
                 startActivity(intent);
+                return true;
+            }
+            case R.id.data_usage_menu_app_network_access: {
+                try {
+                    Intent intent = new Intent();
+                    intent.setClassName(
+                            "com.qualcomm.qti.appnetaccess",
+                            "com.qualcomm.qti.appnetaccess.NetworkControl");
+                    intent.setAction("android.intent.networkcontrol");
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    Log.d(TAG, "activity NetworkControl not found");
+                }
                 return true;
             }
         }

@@ -525,6 +525,18 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
         mDialogFragment = null;
     }
 
+    protected void removeDialog(int dialogId, boolean stateLossAllowed) {
+        if (stateLossAllowed) {
+            if (mDialogFragment != null && mDialogFragment.getDialogId() == dialogId) {
+                getFragmentManager().beginTransaction().remove(mDialogFragment).
+                        commitAllowingStateLoss();
+            }
+            mDialogFragment = null;
+        } else {
+            removeDialog(dialogId);
+        }
+    }
+
     /**
      * Sets the OnCancelListener of the dialog shown. This method can only be
      * called after showDialog(int) and before removeDialog(int). The method
@@ -758,14 +770,16 @@ public abstract class SettingsPreferenceFragment extends InstrumentedPreferenceF
             super.onBindViewHolder(holder, position);
             if (position == mHighlightPosition) {
                 View v = holder.itemView;
-                if (v.getBackground() != null) {
-                    final int centerX = v.getWidth() / 2;
-                    final int centerY = v.getHeight() / 2;
-                    v.getBackground().setHotspot(centerX, centerY);
-                }
-                v.setPressed(true);
-                v.setPressed(false);
-                mHighlightPosition = -1;
+                v.post(() -> {
+                    if (v.getBackground() != null) {
+                        final int centerX = v.getWidth() / 2;
+                        final int centerY = v.getHeight() / 2;
+                        v.getBackground().setHotspot(centerX, centerY);
+                    }
+                    v.setPressed(true);
+                    v.setPressed(false);
+                    mHighlightPosition = -1;
+                });
             }
         }
     }

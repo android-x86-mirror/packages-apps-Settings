@@ -15,8 +15,11 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="sim_cards"
     android:title="@string/sim_settings_title">
+
+    <PreferenceCategory
+            android:key="sim_cards"
+            android:title="@string/sim_settings_title"/>
 
     <PreferenceCategory
             android:key="sim_activities"
@@ -33,5 +36,8 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="mobile_network"
+        android:title="@string/sim_mobile_network_settings_category_title" />
 
 </PreferenceScreen>

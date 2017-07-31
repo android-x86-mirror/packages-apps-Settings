@@ -695,6 +695,10 @@
          [CHAR LIMIT=20] -->
     <string name="time_picker_title">Time</string>
 
+    <!-- Timer Switch Settings --><skip />
+    <!-- Main Settings screen setting option name to go into the timer switch settings-->
+    <string name="timer_switch_settings_title">Scheduled power on and off</string>
+
     <!-- Security Settings --><skip />
 
     <!-- Security settings screen, setting option name to change screen timeout -->
@@ -1570,6 +1574,9 @@
     <string name="wifi_notify_open_networks">Network notification</string>
     <!-- Checkbox summary for option to notify user when open networks are nearby [CHAR LIMIT=60]-->
     <string name="wifi_notify_open_networks_summary">Notify whenever a public network is available</string>
+
+    <string name="wifi_enable_hs2_title">Passpoint On</string>
+
     <!-- Checkbox title for option to toggle poor network detection -->
     <string name="wifi_poor_network_detection">Avoid poor connections</string>
     <!-- Checkbox summary for option to toggle poor network detection -->
@@ -2383,6 +2390,8 @@
     <!-- About phone screen,  setting option name  [CHAR LIMIT=40] -->
     <string name="build_number">Build number</string>
     <!-- About phone screen,  setting option name  [CHAR LIMIT=40] -->
+    <string name="qgp_version">QGP Version</string>
+    <!-- About phone screen,  setting option name  [CHAR LIMIT=40] -->
     <string name="selinux_status">SELinux status</string>
 
     <!-- About phone screen, show when a value of some status item is unavailable. -->
@@ -2839,6 +2848,18 @@
     <string name="apn_protocol">APN protocol</string>
     <!-- Edit access point labels: The protocol of the APN when roaming, e.g., "IPv4", "IPv6", or "IPv4/IPv6". -->
     <string name="apn_roaming_protocol">APN roaming protocol</string>
+    <!-- apn names for carriers -->
+    <string name="APN_NAME_CMNET">CMNET</string>
+    <string name="APN_NAME_CMWAP">CMWAP</string>
+    <string name="APN_NAME_CMMMS">CMMMS</string>
+    <string name="APN_NAME_CUWAP">China Unicom WAP</string>
+    <string name="APN_NAME_CUNET">China Unicom NET</string>
+    <string name="APN_NAME_CUMMS">China Unicom MMS</string>
+    <string name="APN_NAME_CUSUPL">China Unicom AGPS</string>
+    <string name="APN_NAME_CTNET">CTNET</string>
+    <string name="APN_NAME_CTWAP">CTWAP</string>
+    <string name="APN_NAME_CTLTE">ctlte</string>
+    <string name="APN_NAME_CTMMS">CTWAP</string>
     <!-- Edit enable/disable of APN -->
     <string name="carrier_enabled">APN enable/disable</string>
     <string name="carrier_enabled_summaryOn">APN enabled</string>
@@ -2898,19 +2919,19 @@
     <!-- SD card & phone storage settings screen, setting option name under Internal phone storage heading -->
     <string name="master_clear_title">Factory data reset</string>
     <!-- SD card & phone storage settings screen, message on screen after user selects Factory data reset [CHAR LIMIT=NONE] -->
-    <string name="master_clear_desc" product="tablet">"This will erase all data from your tablet\u2019s <b>internal storage</b>, including:\n\n<li>Your Google account</li>\n<li>System and app data and settings</li>\n<li>Downloaded apps</li>"</string>
+    <string name="master_clear_desc" product="tablet">This will erase all data from your tablet\u2019s <b>internal storage</b>, including:\n\n<li>Your Google account</li>\n<li>System and app data and settings</li>\n<li>Downloaded apps</li></string>
     <!-- SD card & phone storage settings screen, message on screen after user selects Factory data reset [CHAR LIMIT=NONE] -->
-    <string name="master_clear_desc" product="default">"This will erase all data from your phone\u2019s <b>internal storage</b>, including:\n\n<li>Your Google account</li>\n<li>System and app data and settings</li>\n<li>Downloaded apps"</li></string>
+    <string name="master_clear_desc" product="default">This will erase all data from your phone\u2019s <b>internal storage</b>, including:\n\n<li>Your Google account</li>\n<li>System and app data and settings</li>\n<li>Downloaded apps</li></string>
     <!-- SD card & phone storage settings screen, instructions and list of current accounts.  The list of accounts follows this text[CHAR LIMIT=NONE] -->
-    <string name="master_clear_accounts" product="default">"\n\nYou are currently signed into the following accounts:\n"</string>
+    <string name="master_clear_accounts" product="default">\n\nYou are currently signed into the following accounts:\n</string>
     <!-- SD card & phone storage settings screen, notification if other users are present on the device [CHAR LIMIT=NONE] -->
-    <string name="master_clear_other_users_present" product="default">"\n\nThere are other users present on this device.\n"</string>
+    <string name="master_clear_other_users_present" product="default">\n\nThere are other users present on this device.\n</string>
     <!-- SD card & phone storage settings screen, list of items in user data storage (USB storage or SD card) that will be erased during this operation [CHAR LIMIT=NONE] -->
-    <string name="master_clear_desc_also_erases_external">"<li>Music</li>\n<li>Photos</li>\n<li>Other user data</li>"</string>
+    <string name="master_clear_desc_also_erases_external"><li>Music</li>\n<li>Photos</li>\n<li>Other user data</li></string>
     <!-- SD card & phone storage settings screen, instructions about whether to also erase the external storage (SD card) when erasing the internal storage [CHAR LIMIT=NONE] -->
-    <string name="master_clear_desc_erase_external_storage" product="nosdcard">"\n\nTo clear music, pictures, and other user data, the <b>USB storage</b> needs to be erased."</string>
+    <string name="master_clear_desc_erase_external_storage" product="nosdcard">\n\nTo clear music, pictures, and other user data, the <b>USB storage</b> needs to be erased.</string>
     <!-- SD card & phone storage settings screen, instructions about whether to also erase the external storage (SD card) when erasing the internal storage [CHAR LIMIT=NONE] -->
-    <string name="master_clear_desc_erase_external_storage" product="default">"\n\nTo clear music, pictures, and other user data, the <b>SD card</b> needs to be erased."</string>
+    <string name="master_clear_desc_erase_external_storage" product="default">\n\nTo clear music, pictures, and other user data, the <b>SD card</b> needs to be erased.</string>
     <!-- SD card & phone storage settings screen, label for check box to erase USB storage [CHAR LIMIT=30] -->
     <string name="erase_external_storage" product="nosdcard">Erase USB storage</string>
     <!-- SD card & phone storage settings screen, label for check box to erase SD card [CHAR LIMIT=30] -->
@@ -7016,6 +7037,8 @@
          for this device should be used for. Choices are usb_use_charging_only,
          usb_use_file_transfer, use_use_photo_transfer, and usb_use_MIDI -->
     <string name="usb_use">Use USB to</string>
+    <string name="usb_tethering_title">USB tethering</string>
+    <string name="usb_tethering_desc">Use device for USB tethering</string>
 
     <!-- Settings item title for background check prefs [CHAR LIMIT=35] -->
     <string name="background_check_pref">Background check</string>
@@ -7782,6 +7805,47 @@
     <!-- Message for telling the user the kind of BT device being displayed in list. -->
     <string name="bluetooth_talkback_bluetooth">Bluetooth</string>
 
+    <!-- Wifi extension requirement -->
+    <string name="wifi_set_priority_settings_title">AP priority settings</string>
+    <string name="wifi_set_priority_settings_summary">Click to set priority of each access point</string>
+    <string name="cellular_to_wlan_title">Cellular->WLAN</string>
+    <string name="wifi_auto_connect_type_title">Auto connect type</string>
+    <string name="wifi_auto_connect_type_summary">Specify network connection type</string>
+    <string name="wifi_menu_disconnect">Disconnect from network</string>
+    <string name="cellular_to_wlan_hint_title">Cellular->WLAN hint</string>
+    <string name="cellular_to_wlan_hint_summary">Allow hint when choose manually or always ask in Cellular->WLAN</string>
+    <string name="cellular_to_wlan_hint_toast">Cellular->WLAN connection may be affected</string>
+    <string name="wlan_to_cellular_hint_title">WLAN->Cellular hint</string>
+    <string name="notify_connect">CMCC WLAN prompt</string>
+    <string name="notify_connect_summary">Prompt me when access to CMCC WLAN</string>
+    <string name="wifi_setting_connect_type_error">There was a problem setting the connect type.</string>
+    <string name="wifi_advanced_gateway">Gateway</string>
+    <string name="wifi_advanced_network_netmask">Netmask</string>
+
+    <string name="app_ops_permiss_name">App network access</string>
+
+    <!-- Roaming Data Settings -->
+    <string name="label_global_roaming_settings">Roaming Settings</string>
+    <string name="set_data_time_range">Show time range</string>
+
+    <string name="select_sim_card">Select SIM card</string>
+
+    <string name="mbn_version">MBN version</string>
+    <!-- show security alert for open type end -->
+    <string name="voice_over_lte">Voice over LTE</string>
+
+    <string name="tethering_help_dialog_title">Help</string>
+    <string name="tethering_help_dialog_text"><b>USB tethering</b> \n You can tether your Android device to your computer with a USB cable, to share your device\'s Internet connection with your computer. \n\n1.USB tethering works with Windows Vista, Windows 7, Windows 8, Windows 8.1 and Linux. \n\n2.If your device has an SD card or USB storage, you can\'t mount it on your computer when USB tethered. \n\n <b>Portable Wi-Fi hotspot</b> \n You can turn your Android device into a portable Wi-Fi hotspot, to share your Android device\'s Internet connection with one or more computers or other devices. \n\n1.When your device is serving as a Wi-Fi hotspot, you can\'t use your device\'s applications to access the Internet via its Wi-Fi connection (but of course you remain connected to the Internet via your mobile data network). \n\n2.You configure the hotspot with the Wi-Fi hotspot settings.</string>
+
+    <string name="lte_data_and_voice_calling_enabled">LTE data and Voice Calling (IMS/VoLTE) service enabled </string>
+    <string name="lte_data_service_enabled">LTE data service enabled </string>
+
+    <string name="maximum_connections_dialog_title_text">Set Maximum Connections</string>
+    <string name="maximum_connections_dialog_positive_text">YES</string>
+    <string name="maximum_connections_dialog_negative_text">NO</string>
+    <string name="ssid_broadcast_dialog_title">Your HotSpot is not visible now</string>
+    <string name="ssid_broadcast_dialog_text">If you switch the Broadcast Network Name (SSID) option off, your phone will not be visible to other devices and will not appear in the list of available Wi-Fi networks. Other devices can still connect to your HotSpot by entering its network name manually.</string>
+
     <!-- Used as title on the automatic storage manager settings. [CHAR LIMIT=60] -->
     <string name="automatic_storage_manager_settings">Manage storage</string>
 
@@ -7894,5 +7958,11 @@
     <string name="carrier_provisioning">Carrier Provisioning Info</string>
     <!-- Trigger Carrier Provisioning [CHAR LIMIT=NONE] -->
     <string name="trigger_carrier_provisioning">Trigger Carrier Provisioning</string>
+
+    <!-- Protected Apps -->
+    <string name="menu_hidden_apps_delete">Reset</string>
+    <string name="menu_hidden_apps_reset_lock">Reset pattern lock</string>
+    <string name="protected_apps">Protected apps</string>
+    <string name="saving_protected_components">Saving component state</string>
 
 </resources>

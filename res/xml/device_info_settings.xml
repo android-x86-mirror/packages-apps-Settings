@@ -15,6 +15,7 @@
 -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:cm="http://schemas.android.com/apk/res/cyanogenmod.platform"
         xmlns:settings="http://schemas.android.com/apk/res-auto"
         android:title="@string/about_settings">
 
@@ -32,6 +33,17 @@
                     android:targetPackage="@string/additional_system_update"
                     android:targetClass="@string/additional_system_update_menu" />
         </PreferenceScreen>
+
+        <!-- LineageOS Updates -->
+        <cyanogenmod.preference.SelfRemovingPreference android:key="cm_updates"
+                android:title="@string/cmupdate_settings_title"
+                android:summary="@string/system_update_settings_list_item_summary"
+                cm:requiresOwner="true"
+                cm:requiresPackage="org.lineageos.updater">
+            <intent android:action="android.intent.action.MAIN"
+                    android:targetPackage="org.lineageos.updater"
+                    android:targetClass="com.cyanogenmod.updater.UpdatesActivity" />
+        </cyanogenmod.preference.SelfRemovingPreference>
 
         <!-- Device status - launches activity -->
         <PreferenceScreen android:key="status_info"
@@ -70,6 +82,17 @@
                 android:title="@string/device_feedback">
         </PreferenceScreen>
 
+        <!-- Contributors cloud -->
+        <org.cyanogenmod.internal.cmparts.CMPartsPreference
+                android:key="contributors" />
+
+        <!-- Device name -->
+        <Preference android:key="device_name"
+                android:enabled="false"
+                android:shouldDisableView="false"
+                android:title="@string/device_name"
+                android:summary="@string/device_info_default"/>
+
         <!-- Device manufacturer -->
         <Preference android:key="device_manufacturer"
                 style="?android:preferenceInformationStyle"
@@ -82,7 +105,7 @@
                 android:enabled="false"
                 android:shouldDisableView="false"
                 android:selectable="false"
-                android:title="@string/model_info"
+                android:title="@string/device_model"
                 android:summary="@string/device_info_default"
                 settings:allowDividerAbove="true"
                 settings:allowDividerBelow="true"/>
@@ -93,6 +116,24 @@
                 android:shouldDisableView="false"
                 android:title="@string/firmware_version"
                 android:summary="@string/device_info_default"/>
+
+        <!-- Mod version -->
+        <Preference android:key="mod_version"
+                android:enabled="false"
+                android:shouldDisableView="false"
+                android:title="@string/mod_version"
+                android:summary="@string/mod_version_default" />
+
+        <!-- CyanogenMod API Version -->
+        <com.android.settings.DividerPreference
+                android:key="mod_api_level"
+                android:enabled="false"
+                android:selectable="false"
+                android:shouldDisableView="false"
+                android:title="@string/mod_api_level"
+                android:summary="@string/mod_api_level_default"
+                settings:allowDividerAbove="true"
+                settings:allowDividerBelow="true" />
 
         <!-- Security patch level -->
         <PreferenceScreen android:key="security_patch"
@@ -112,6 +153,13 @@
                 android:summary="@string/device_info_default"
                 settings:allowDividerAbove="true"
                 settings:allowDividerBelow="true"/>
+
+        <!-- Device MBN version -->
+        <Preference android:key="mbn_version"
+                android:enabled="false"
+                android:shouldDisableView="false"
+                android:title="@string/mbn_version"
+                android:summary="@string/device_info_default"/>
 
         <!-- Device Baseband version -->
         <com.android.settings.DividerPreference
@@ -135,6 +183,17 @@
                 settings:allowDividerAbove="true"
                 settings:allowDividerBelow="true"/>
 
+        <!-- Build date -->
+        <com.android.settings.DividerPreference
+                android:key="build_date"
+                android:enabled="false"
+                android:selectable="false"
+                android:shouldDisableView="false"
+                android:title="@string/build_date"
+                android:summary="@string/build_date_default"
+                settings:allowDividerAbove="true"
+                settings:allowDividerBelow="true" />
+
         <!-- OpenGL Version -->
         <Preference android:key="opengl_version"
                 style="?android:preferenceInformationStyle"
@@ -147,6 +206,12 @@
                 android:shouldDisableView="false"
                 android:title="@string/build_number"
                 android:summary="@string/device_info_default"/>
+
+        <!-- Device QGP version -->
+        <Preference android:key="qgp_version"
+                style="?android:preferenceInformationStyle"
+                android:title="@string/qgp_version"
+		android:summary="@string/device_info_default"/>
 
         <!-- SELinux status information -->
         <com.android.settings.DividerPreference

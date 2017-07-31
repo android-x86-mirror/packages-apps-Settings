@@ -129,12 +129,27 @@ public class PublicVolumeSettings extends SettingsPreferenceFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if (!isVolumeValid()) {
+            return;
+        }
+
         final Resources resources = getResources();
         final int padding = resources.getDimensionPixelSize(
                 R.dimen.unmount_button_padding);
         final ViewGroup buttonBar = getButtonBar();
         buttonBar.removeAllViews();
         buttonBar.setPadding(padding, padding, padding, padding);
+
+        //Fixed monkey test issue
+        //Settings crash caused by null pointer parameter
+        //Add check with mUnmount's values
+        if (null == mUnmount) {
+            mUnmount = new Button(getActivity());
+            mUnmount.setText(R.string.storage_menu_unmount);
+            mUnmount.setOnClickListener(mUnmountListener);
+        }
+
         buttonBar.addView(mUnmount, new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -172,7 +187,7 @@ public class PublicVolumeSettings extends SettingsPreferenceFragment {
         if (mVolume.getState() == VolumeInfo.STATE_UNMOUNTED) {
             addPreference(mMount);
         }
-        if (mVolume.isMountedReadable()) {
+        if (!mDisk.isNonRemovable() && mVolume.isMountedReadable()) {
             getButtonBar().setVisibility(View.VISIBLE);
         }
         addPreference(mFormatPublic);

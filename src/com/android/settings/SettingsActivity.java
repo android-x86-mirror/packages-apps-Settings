@@ -20,6 +20,7 @@ import android.app.ActivityManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ActivityNotFoundException;
 import android.app.ActionBar;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -29,6 +30,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.nfc.NfcAdapter;
@@ -217,8 +219,13 @@ public class SettingsActivity extends SettingsDrawerActivity
 
     public static final String EXTRA_HIDE_DRAWER = ":settings:hide_drawer";
 
+    public static final String EXTRA_LAUNCH_ACTIVITY_ACTION = ":settings:launch_activity_action";
+
     public static final String META_DATA_KEY_FRAGMENT_CLASS =
         "com.android.settings.FRAGMENT_CLASS";
+
+    public static final String META_DATA_KEY_LAUNCH_ACTIVITY_ACTION =
+        "com.android.settings.ACTIVITY_ACTION";
 
     private static final String EXTRA_UI_OPTIONS = "settings:ui_options";
 
@@ -226,7 +233,10 @@ public class SettingsActivity extends SettingsDrawerActivity
 
     private static final int REQUEST_SUGGESTION = 42;
 
+    private static final String ACTION_TIMER_SWITCH = "qualcomm.intent.action.TIMER_SWITCH";
+
     private String mFragmentClass;
+    private String mActivityAction;
 
     private CharSequence mInitialTitle;
     private int mInitialTitleResId;
@@ -237,6 +247,7 @@ public class SettingsActivity extends SettingsDrawerActivity
             WifiSettingsActivity.class.getName(),
             Settings.BluetoothSettingsActivity.class.getName(),
             Settings.DataUsageSummaryActivity.class.getName(),
+            Settings.RoamingSettingsActivity.class.getName(),
             Settings.SimSettingsActivity.class.getName(),
             Settings.WirelessSettingsActivity.class.getName(),
             //device_section
@@ -260,6 +271,7 @@ public class SettingsActivity extends SettingsDrawerActivity
             Settings.AccessibilitySettingsActivity.class.getName(),
             Settings.PrintSettingsActivity.class.getName(),
             Settings.PaymentSettingsActivity.class.getName(),
+            Settings.TimerSwitchSettingsActivity.class.getName(),
     };
 
     private static final String[] ENTRY_FRAGMENTS = {
@@ -530,6 +542,18 @@ public class SettingsActivity extends SettingsDrawerActivity
         getMetaData();
 
         final Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_LAUNCH_ACTIVITY_ACTION)) {
+            if (mActivityAction != null) {
+               try{
+                   startActivity(new Intent(mActivityAction));
+               }catch(ActivityNotFoundException e){
+                   Log.w(LOG_TAG, "Activity not found for action: " + mActivityAction);
+               }
+            }
+            finish();
+            return;
+        }
+
         if (intent.hasExtra(EXTRA_UI_OPTIONS)) {
             getWindow().setUiOptions(intent.getIntExtra(EXTRA_UI_OPTIONS, 0));
         }
@@ -845,10 +869,11 @@ public class SettingsActivity extends SettingsDrawerActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        mDevelopmentPreferences.unregisterOnSharedPreferenceChangeListener(
-                mDevelopmentPreferencesListener);
-        mDevelopmentPreferencesListener = null;
+        if (mDevelopmentPreferencesListener != null) {
+            mDevelopmentPreferences.unregisterOnSharedPreferenceChangeListener(
+                    mDevelopmentPreferencesListener);
+            mDevelopmentPreferencesListener = null;
+        }
     }
 
     protected boolean isValidFragment(String fragmentName) {
@@ -878,6 +903,12 @@ public class SettingsActivity extends SettingsDrawerActivity
             args.putParcelable("intent", superIntent);
             modIntent.putExtra(EXTRA_SHOW_FRAGMENT_ARGUMENTS, args);
             return modIntent;
+        } else {
+            if (mActivityAction != null) {
+                Intent modIntent = new Intent(superIntent);
+                modIntent.putExtra(EXTRA_LAUNCH_ACTIVITY_ACTION, mActivityAction);
+                return modIntent;
+            }
         }
         return superIntent;
     }
@@ -1068,6 +1099,10 @@ public class SettingsActivity extends SettingsDrawerActivity
                 Utils.isBandwidthControlEnabled(), isAdmin, pm);
 
         setTileEnabled(new ComponentName(packageName,
+                Settings.RoamingSettingsActivity.class.getName()),
+                getResources().getBoolean(R.bool.config_roamingsettings_enabled), isAdmin, pm);
+
+        setTileEnabled(new ComponentName(packageName,
                 Settings.SimSettingsActivity.class.getName()),
                 Utils.showSimCardTile(this), isAdmin, pm);
 
@@ -1093,7 +1128,6 @@ public class SettingsActivity extends SettingsDrawerActivity
                 pm.hasSystemFeature(PackageManager.FEATURE_NFC)
                         && pm.hasSystemFeature(PackageManager.FEATURE_NFC_HOST_CARD_EMULATION)
                         && adapter != null && adapter.isEnabled(), isAdmin, pm);
-
         setTileEnabled(new ComponentName(packageName,
                 Settings.PrintSettingsActivity.class.getName()),
                 pm.hasSystemFeature(PackageManager.FEATURE_PRINTING), isAdmin, pm);
@@ -1107,6 +1141,18 @@ public class SettingsActivity extends SettingsDrawerActivity
 
         // Reveal development-only quick settings tiles
         DevelopmentTiles.setTilesEnabled(this, showDev);
+
+        // Show scheduled power on and off if support
+        boolean showTimerSwitch = false;
+        Intent intent = new Intent(ACTION_TIMER_SWITCH);
+        List<ResolveInfo> infos = getBaseContext().getPackageManager()
+                .queryIntentActivities(intent, 0);
+        if (infos != null && !infos.isEmpty()) {
+            showTimerSwitch = true;
+        }
+        setTileEnabled(new ComponentName(packageName,
+                Settings.TimerSwitchSettingsActivity.class.getName()),
+                showTimerSwitch, isAdmin, pm);
 
         if (UserHandle.MU_ENABLED && !isAdmin) {
             // When on restricted users, disable all extra categories (but only the settings ones).
@@ -1129,7 +1175,7 @@ public class SettingsActivity extends SettingsDrawerActivity
         boolean hasBackupActivity = false;
         if (!useDefaultBackup) {
             try {
-                Intent intent = Intent.parseUri(backupIntent, 0);
+                intent = Intent.parseUri(backupIntent, 0);
                 hasBackupActivity = !getPackageManager().queryIntentActivities(intent, 0).isEmpty();
             } catch (URISyntaxException e) {
                 Log.e(LOG_TAG, "Invalid backup intent URI!", e);
@@ -1156,6 +1202,7 @@ public class SettingsActivity extends SettingsDrawerActivity
                     PackageManager.GET_META_DATA);
             if (ai == null || ai.metaData == null) return;
             mFragmentClass = ai.metaData.getString(META_DATA_KEY_FRAGMENT_CLASS);
+            mActivityAction = ai.metaData.getString(META_DATA_KEY_LAUNCH_ACTIVITY_ACTION);
         } catch (NameNotFoundException nnfe) {
             // No recovery
             Log.d(LOG_TAG, "Cannot get Metadata for: " + getComponentName().toString());
@@ -1194,6 +1241,18 @@ public class SettingsActivity extends SettingsDrawerActivity
 
     @Override
     public boolean onClose() {
+        return false;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (super.onOptionsItemSelected(item)) {
+            return true;
+        }
+        if (mDisplayHomeAsUpEnabled && item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
         return false;
     }
 

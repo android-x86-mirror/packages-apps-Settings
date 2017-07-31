@@ -36,6 +36,11 @@
         <intent android:action="android.settings.LICENSE" />
     </PreferenceScreen>
 
+    <!-- CM License information -->
+    <PreferenceScreen
+        android:key="cmlicense"
+        android:title="@string/cmlicense_title" />
+
     <!-- Terms and conditions -->
     <PreferenceScreen
         android:key="terms"
@@ -49,12 +54,6 @@
         android:title="@string/webview_license_title">
         <intent android:action="android.settings.WEBVIEW_LICENSE" />
     </PreferenceScreen>
-
-    <Preference
-        android:key="wallpaper_attributions"
-        android:title="@string/wallpaper_attributions"
-        android:summary="@string/wallpaper_attributions_values"
-        />
 
 </PreferenceScreen>
 

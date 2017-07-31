@@ -515,6 +515,8 @@
         <item>IMSI</item>
         <!-- Do not translate. -->
         <item>GID</item>
+        <!-- Do not translate. -->
+        <item>ICCID</item>
     </string-array>
 
     <string-array translatable="false" name="mvno_type_values">
@@ -526,6 +528,8 @@
         <item>imsi</item>
         <!-- Do not translate. -->
         <item>gid</item>
+        <!-- Do not translate. -->
+        <item>iccid</item>
     </string-array>
 
     <!-- Apps on SD installation location options in ApplicationSettings -->
@@ -598,25 +602,11 @@
         <item>monitor high power location</item>
         <item>get usage stats</item>
         <item>mute/unmute microphone</item>
-        <item>show toast</item>
         <item>project media</item>
         <item>activate VPN</item>
         <item>write wallpaper</item>
         <item>assist structure</item>
         <item>assist screenshot</item>
-        <item>read phone state</item>
-        <item>add voicemail</item>
-        <item>use sip</item>
-        <item>process outgoing call</item>
-        <item>fingerprint</item>
-        <item>body sensors</item>
-        <item>read cell broadcasts</item>
-        <item>mock location</item>
-        <item>read storage</item>
-        <item>write storage</item>
-        <item>turn on screen</item>
-        <item>get accounts</item>
-        <item>run in background</item>
     </string-array>
 
     <!-- User display names for app ops codes -->
@@ -666,25 +656,11 @@
         <item>Location</item>
         <item>Get usage stats</item>
         <item>Mute/unmute microphone</item>
-        <item>Show toast</item>
         <item>Project media</item>
         <item>Activate VPN</item>
         <item>Write wallpaper</item>
         <item>Assist structure</item>
         <item>Assist screenshot</item>
-        <item>Read phone state</item>
-        <item>Add voicemail</item>
-        <item>Use sip</item>
-        <item>Process outgoing call</item>
-        <item>Fingerprint</item>
-        <item>Body sensors</item>
-        <item>Read cell broadcasts</item>
-        <item>Mock location</item>
-        <item>Read storage</item>
-        <item>Write storage</item>
-        <item>Turn on screen</item>
-        <item>Get accounts</item>
-        <item>Run in background</item>
     </string-array>
 
     <!-- Titles for the list of long press timeout options. -->
@@ -1029,6 +1005,108 @@
         <item>Purple</item>
         <item>Pink</item>
         <item>Red</item>
+    </string-array>
+
+    <!-- Wifi extension requirement -->
+    <string-array name="cellcular2wifi_entries">
+        <item>Automatically connect</item>
+        <item>Manually connect</item>
+        <item>Always ask</item>
+    </string-array>
+
+    <!-- Wifi extension requirement -->
+    <string-array name="cellcular2wifi_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <!-- CT MCC-MNC-->
+    <string-array name="ct_mcc_mnc_list"  translatable="false">
+        <item>45507</item>
+        <item>46003</item>
+        <item>46011</item>
+        <item>46012</item>
+        <item>20404</item>
+        <item>45502</item>
+        <item>45403</item>
+        <item>45404</item>
+    </string-array>
+
+    <!-- dm plmn that need to be hidden -->
+    <string-array name="hidedm_plmn_list">
+        <item>46000</item>
+        <item>46002</item>
+        <item>46003</item>
+        <item>46007</item>
+    </string-array>
+
+    <!-- supl plmn list that need to be hidden -->
+    <string-array name="hidesupl_plmn_list">
+        <item>46001</item>
+        <item>46003</item>
+        <item>46011</item>
+        <item>46012</item>
+        <item>45502</item>
+        <item>45507</item>
+    </string-array>
+
+    <!-- Defined the hide accounts' type -->
+    <string-array name="hide_account_list">
+        <item>com.qualcomm.qti.RIDL</item>
+        <item>com.android.localphone</item>
+        <item>com.android.sim</item>
+        <item>com.android.wanadoo</item>
+        <item>com.android.orangemail</item>
+        <item>com.android.correoorange</item>
+        <item>com.android.orangemobile</item>
+        <item>com.android.multibox</item>
+        <item>com.android.belgacom</item>
+        <item>com.android.skynet</item>
+        <item>com.android.telenet</item>
+        <item>com.android.scarlet</item>
+        <item>com.android.euphony</item>
+        <item>com.android.voo</item>
+        <item>com.android.tele2</item>
+        <item>com.android.versatel</item>
+        <item>com.android.tiscali</item>
+        <item>com.android.swing</item>
+        <item>com.android.versatelasdl</item>
+        <item>com.android.brutele</item>
+        <item>com.android.teledisnet</item>
+        <item>com.android.tvcablenet</item>
+        <item>com.android.mobistar</item>
+        <item>com.android.vodafone</item>
+        <item>com.android.hotmail</item>
+        <item>com.android.sapo</item>
+        <item>com.android.netcabo</item>
+        <item>com.android.clix</item>
+        <item>com.android.alice</item>
+        <item>com.android.yahoo</item>
+        <item>com.android.outlook</item>
+        <item>com.android.gmail</item>
+        <item>com.android.aol</item>
+        <item>com.android.free</item>
+        <item>com.android.laposte</item>
+        <item>com.android.sfr</item>
+        <item>com.android.orange</item>
+        <item>com.android.noos</item>
+        <item>com.android.vodafone</item>
+        <item>com.android.hotmail</item>
+        <item>com.android.sapo</item>
+        <item>com.android.netcabo</item>
+        <item>com.android.clix</item>
+    </string-array>
+
+    <string-array name="plmn_list_for_apn_disable">
+        <item>20404</item>
+        <item>45403</item>
+        <item>45404</item>
+        <item>45502</item>
+        <item>45507</item>
+        <item>46003</item>
+        <item>46011</item>
+        <item>46012</item>
     </string-array>
 
     <!-- Automatic storage management settings. The amount of days for the automatic storage manager

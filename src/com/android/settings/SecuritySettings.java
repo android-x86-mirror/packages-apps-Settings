@@ -64,6 +64,10 @@ import com.android.settingslib.RestrictedLockUtils;
 import com.android.settingslib.RestrictedPreference;
 import com.android.settingslib.RestrictedSwitchPreference;
 
+import cyanogenmod.providers.CMSettings;
+
+import org.cyanogenmod.internal.util.CmLockPatternUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +106,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
 
     // Misc Settings
     private static final String KEY_SIM_LOCK = "sim_lock";
+    private static final String KEY_SIM_LOCK_SETTINGS = "sim_lock_settings";
     private static final String KEY_SHOW_PASSWORD = "show_password";
     private static final String KEY_CREDENTIAL_STORAGE_TYPE = "credential_storage_type";
     private static final String KEY_USER_CREDENTIALS = "user_credentials";
@@ -112,6 +117,9 @@ public class SecuritySettings extends SettingsPreferenceFragment
     private static final String PACKAGE_MIME_TYPE = "application/vnd.android.package-archive";
     private static final String KEY_TRUST_AGENT = "trust_agent";
     private static final String KEY_SCREEN_PINNING = "screen_pinning_settings";
+    private static final String KEY_LOCK_SCREEN_BLUR_ENABLED = "lock_screen_blur_enabled";
+    private static final int PASSWORD_VISIBLE = 1;
+    private static final int PASSWORD_INVISIBLE = 0;
 
     // These switch preferences need special handling since they're not all stored in Settings.
     private static final String SWITCH_PREFERENCE_KEYS[] = {
@@ -301,17 +309,67 @@ public class SecuritySettings extends SettingsPreferenceFragment
         addPreferencesFromResource(R.xml.security_settings_misc);
 
         // Do not display SIM lock for devices without an Icc card
-        TelephonyManager tm = TelephonyManager.getDefault();
         CarrierConfigManager cfgMgr = (CarrierConfigManager)
                 getActivity().getSystemService(Context.CARRIER_CONFIG_SERVICE);
         PersistableBundle b = cfgMgr.getConfig();
-        if (!mIsAdmin || !isSimIccReady() ||
-                b.getBoolean(CarrierConfigManager.KEY_HIDE_SIM_LOCK_SETTINGS_BOOL)) {
-            root.removePreference(root.findPreference(KEY_SIM_LOCK));
+        PreferenceGroup iccLockGroup = (PreferenceGroup) root.findPreference(KEY_SIM_LOCK);
+        Preference iccLock = root.findPreference(KEY_SIM_LOCK_SETTINGS);
+
+        if (!mIsAdmin
+                || b.getBoolean(CarrierConfigManager.KEY_HIDE_SIM_LOCK_SETTINGS_BOOL)) {
+            root.removePreference(iccLockGroup);
         } else {
-            // Disable SIM lock if there is no ready SIM card.
-            root.findPreference(KEY_SIM_LOCK).setEnabled(isSimReady());
+            SubscriptionManager subMgr = SubscriptionManager.from(getActivity());
+            TelephonyManager tm = TelephonyManager.getDefault();
+            int numPhones = tm.getPhoneCount();
+            boolean hasAnySim = false;
+
+            for (int i = 0; i < numPhones; i++) {
+                final Preference pref;
+
+                if (numPhones > 1) {
+                    SubscriptionInfo sir = subMgr.getActiveSubscriptionInfoForSimSlotIndex(i);
+                    if (sir == null) {
+                        continue;
+                    }
+
+                    pref = new Preference(getActivity());
+                    pref.setOrder(iccLock.getOrder());
+                    pref.setTitle(getString(R.string.sim_card_lock_settings_title, i + 1));
+                    pref.setSummary(sir.getDisplayName());
+
+                    Intent intent = new Intent(getActivity(),
+                            com.android.settings.Settings.IccLockSettingsActivity.class);
+                    intent.putExtra(IccLockSettings.EXTRA_SUB_ID, sir.getSubscriptionId());
+                    intent.putExtra(IccLockSettings.EXTRA_SUB_DISPLAY_NAME,
+                            sir.getDisplayName());
+                    intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_AS_SUBSETTING, true);
+                    pref.setIntent(intent);
+
+                    iccLockGroup.addPreference(pref);
+                } else {
+                    pref = iccLock;
+                }
+
+                // Do not display SIM lock for devices without an Icc card
+                hasAnySim |= tm.hasIccCard(i);
+
+                int simState = tm.getSimState(i);
+                boolean simPresent = simState != TelephonyManager.SIM_STATE_ABSENT
+                        && simState != TelephonyManager.SIM_STATE_UNKNOWN
+                        && simState != TelephonyManager.SIM_STATE_CARD_IO_ERROR;
+                if (!simPresent) {
+                    pref.setEnabled(false);
+                }
+            }
+
+            if (!hasAnySim) {
+                root.removePreference(iccLockGroup);
+            } else if (numPhones > 1) {
+                iccLockGroup.removePreference(iccLock);
+            }
         }
+
         if (Settings.System.getInt(getContentResolver(),
                 Settings.System.LOCK_TO_APP_ENABLED, 0) != 0) {
             root.findPreference(KEY_SCREEN_PINNING).setSummary(
@@ -456,43 +514,6 @@ public class SecuritySettings extends SettingsPreferenceFragment
         }
     }
 
-    /* Return true if a there is a Slot that has Icc.
-     */
-    private boolean isSimIccReady() {
-        TelephonyManager tm = TelephonyManager.getDefault();
-        final List<SubscriptionInfo> subInfoList =
-                mSubscriptionManager.getActiveSubscriptionInfoList();
-
-        if (subInfoList != null) {
-            for (SubscriptionInfo subInfo : subInfoList) {
-                if (tm.hasIccCard(subInfo.getSimSlotIndex())) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /* Return true if a SIM is ready for locking.
-     * TODO: consider adding to TelephonyManager or SubscritpionManasger.
-     */
-    private boolean isSimReady() {
-        int simState = TelephonyManager.SIM_STATE_UNKNOWN;
-        final List<SubscriptionInfo> subInfoList =
-                mSubscriptionManager.getActiveSubscriptionInfoList();
-        if (subInfoList != null) {
-            for (SubscriptionInfo subInfo : subInfoList) {
-                simState = TelephonyManager.getDefault().getSimState(subInfo.getSimSlotIndex());
-                if((simState != TelephonyManager.SIM_STATE_ABSENT) &&
-                            (simState != TelephonyManager.SIM_STATE_UNKNOWN)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     private static ArrayList<TrustAgentComponentInfo> getActiveTrustAgents(
             Context context, LockPatternUtils utils, DevicePolicyManager dpm) {
         PackageManager pm = context.getPackageManager();
@@ -602,13 +623,22 @@ public class SecuritySettings extends SettingsPreferenceFragment
         updateUnificationPreference();
 
         if (mShowPassword != null) {
-            mShowPassword.setChecked(Settings.System.getInt(getContentResolver(),
-                    Settings.System.TEXT_SHOW_PASSWORD, 1) != 0);
+            mShowPassword.setChecked(isPasswordVisible());
         }
 
         if (mResetCredentials != null && !mResetCredentials.isDisabledByAdmin()) {
             mResetCredentials.setEnabled(!mKeyStore.isEmpty());
         }
+    }
+
+    private boolean isPasswordVisible() {
+        int defaultValue = PASSWORD_VISIBLE ;
+        if (getResources().getBoolean(
+                R.bool.config_regional_security_show_password_enable)) {
+            defaultValue = PASSWORD_INVISIBLE ;
+        }
+        return Settings.System.getInt(getContentResolver(),
+                        Settings.System.TEXT_SHOW_PASSWORD, defaultValue) != 0 ;
     }
 
     private void updateUnificationPreference() {
@@ -710,9 +740,11 @@ public class SecuritySettings extends SettingsPreferenceFragment
     private void unifyLocks() {
         int profileQuality =
                 mLockPatternUtils.getKeyguardStoredPasswordQuality(mProfileChallengeUserId);
+        final LockPatternUtils lockPatternUtils = mChooseLockSettingsHelper.utils();
         if (profileQuality == DevicePolicyManager.PASSWORD_QUALITY_SOMETHING) {
             mLockPatternUtils.saveLockPattern(
-                    LockPatternUtils.stringToPattern(mCurrentProfilePassword),
+                    LockPatternUtils.stringToPattern(mCurrentProfilePassword,
+                        lockPatternUtils.getLockPatternSize(MY_USER_ID)),
                     mCurrentDevicePassword, MY_USER_ID);
         } else {
             mLockPatternUtils.saveLockPassword(
@@ -986,6 +1018,11 @@ public class SecuritySettings extends SettingsPreferenceFragment
                 keys.add(KEY_MANAGE_TRUST_AGENTS);
             }
 
+            if (!context.getResources().getBoolean(
+                    com.android.internal.R.bool.config_uiBlurEnabled)) {
+                keys.add(KEY_LOCK_SCREEN_BLUR_ENABLED);
+            }
+
             return keys;
         }
     }
@@ -997,17 +1034,20 @@ public class SecuritySettings extends SettingsPreferenceFragment
         private static final String KEY_LOCK_AFTER_TIMEOUT = "lock_after_timeout";
         private static final String KEY_OWNER_INFO_SETTINGS = "owner_info_settings";
         private static final String KEY_POWER_INSTANTLY_LOCKS = "power_button_instantly_locks";
+        private static final String KEY_DIRECTLY_SHOW_LOCK = "directly_show_lock";
 
         // These switch preferences need special handling since they're not all stored in Settings.
         private static final String SWITCH_PREFERENCE_KEYS[] = { KEY_LOCK_AFTER_TIMEOUT,
-                KEY_VISIBLE_PATTERN, KEY_POWER_INSTANTLY_LOCKS };
+                KEY_VISIBLE_PATTERN, KEY_POWER_INSTANTLY_LOCKS, KEY_DIRECTLY_SHOW_LOCK };
 
         private TimeoutListPreference mLockAfter;
         private SwitchPreference mVisiblePattern;
         private SwitchPreference mPowerButtonInstantlyLocks;
+        private SwitchPreference mDirectlyShowLock;
         private RestrictedPreference mOwnerInfoPref;
 
         private LockPatternUtils mLockPatternUtils;
+        private ChooseLockSettingsHelper mChooseLockSettingsHelper;
         private DevicePolicyManager mDPM;
 
         @Override
@@ -1019,6 +1059,7 @@ public class SecuritySettings extends SettingsPreferenceFragment
         public void onCreate(Bundle icicle) {
             super.onCreate(icicle);
             mLockPatternUtils = new LockPatternUtils(getContext());
+            mChooseLockSettingsHelper = new ChooseLockSettingsHelper(getActivity());
             mDPM = getContext().getSystemService(DevicePolicyManager.class);
             createPreferenceHierarchy();
         }
@@ -1035,6 +1076,11 @@ public class SecuritySettings extends SettingsPreferenceFragment
             }
             if (mPowerButtonInstantlyLocks != null) {
                 mPowerButtonInstantlyLocks.setChecked(mLockPatternUtils.getPowerButtonInstantlyLocks(
+                        MY_USER_ID));
+            }
+            final CmLockPatternUtils cmLockPatternUtils = mChooseLockSettingsHelper.cmUtils();
+            if (mDirectlyShowLock != null) {
+                mDirectlyShowLock.setChecked(cmLockPatternUtils.shouldPassToSecurityView(
                         MY_USER_ID));
             }
 
@@ -1059,6 +1105,9 @@ public class SecuritySettings extends SettingsPreferenceFragment
                     new LockPatternUtils(getContext()),
                     ManagedLockPasswordProvider.get(getContext(), MY_USER_ID));
             addPreferencesFromResource(resid);
+
+            // directly show lock
+            mDirectlyShowLock = (SwitchPreference) findPreference(KEY_DIRECTLY_SHOW_LOCK);
 
             // lock after preference
             mLockAfter = (TimeoutListPreference) findPreference(KEY_LOCK_AFTER_TIMEOUT);
@@ -1205,6 +1254,9 @@ public class SecuritySettings extends SettingsPreferenceFragment
             String key = preference.getKey();
             if (KEY_POWER_INSTANTLY_LOCKS.equals(key)) {
                 mLockPatternUtils.setPowerButtonInstantlyLocks((Boolean) value, MY_USER_ID);
+            } else if (KEY_DIRECTLY_SHOW_LOCK.equals(key)) {
+                final CmLockPatternUtils cmLockPatternUtils = mChooseLockSettingsHelper.cmUtils();
+                cmLockPatternUtils.setPassToSecurityView((Boolean) value, MY_USER_ID);
             } else if (KEY_LOCK_AFTER_TIMEOUT.equals(key)) {
                 int timeout = Integer.parseInt((String) value);
                 try {

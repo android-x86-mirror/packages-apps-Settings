@@ -161,21 +161,23 @@ public class BandMode extends Activity {
                 return;
             }
 
-            int size = bands[0];
+            // Always show Band 0, ie Automatic
+            item = new BandListItem(0);
+            mBandListAdapter.add(item);
+            if (DBG) log("Add " + item.toString());
 
-            if (size > 0) {
-                mBandListAdapter.add(
-                        new BandListItem(Phone.BM_UNSPECIFIED)); //Always include AUTOMATIC
-                for (int i=1; i<=size; i++) {
-                    if (bands[i] == Phone.BM_UNSPECIFIED) {
-                        continue;
-                    }
-                    item = new BandListItem(bands[i]);
-                    mBandListAdapter.add(item);
-                    if (DBG) log("Add " + item.toString());
+            for (int i=0; i<bands.length; i++) {
+                if (i == 1)
+                    mBandListAdapter.add(
+                            new BandListItem(Phone.BM_UNSPECIFIED)); //Always include AUTOMATIC
+                if (i > 0 && bands[i] == Phone.BM_UNSPECIFIED) {
+                    continue;
                 }
-                addBandSuccess = true;
+                item = new BandListItem(bands[i]);
+                mBandListAdapter.add(item);
+                if (DBG) log("Add " + item.toString());
             }
+            addBandSuccess = true;
         }
 
         if (addBandSuccess == false) {

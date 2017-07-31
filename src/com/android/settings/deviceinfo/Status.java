@@ -36,13 +36,20 @@ import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UserManager;
 import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceScreen;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import com.android.internal.logging.MetricsProto.MetricsEvent;
 import com.android.internal.util.ArrayUtils;
 import com.android.settings.R;
+import com.android.settings.Settings;
 import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
+
+import cyanogenmod.hardware.CMHardwareManager;
 
 import java.lang.ref.WeakReference;
 
@@ -195,7 +202,7 @@ public class Status extends SettingsPreferenceFragment {
 
         updateConnectivity();
 
-        String serial = Build.SERIAL;
+        String serial = getSerialNumber();
         if (serial != null && !serial.equals("")) {
             setSummaryText(KEY_SERIAL_NUMBER, serial);
         } else {
@@ -208,6 +215,42 @@ public class Status extends SettingsPreferenceFragment {
         if (!UserManager.get(getContext()).isAdminUser()
                 || Utils.isWifiOnly(getContext())) {
             removePreferenceFromScreen(KEY_SIM_STATUS);
+            removePreferenceFromScreen(KEY_IMEI_INFO);
+        } else {
+            int numPhones = TelephonyManager.getDefault().getPhoneCount();
+
+            if (numPhones > 1) {
+                PreferenceScreen prefSet = getPreferenceScreen();
+                Preference singleSimPref = prefSet.findPreference(KEY_SIM_STATUS);
+                SubscriptionManager subscriptionManager = SubscriptionManager.from(getActivity());
+
+                for (int i = 0; i < numPhones; i++) {
+                    SubscriptionInfo sir =
+                            subscriptionManager.getActiveSubscriptionInfoForSimSlotIndex(i);
+                    Preference pref = new Preference(getActivity());
+
+                    pref.setOrder(singleSimPref.getOrder());
+                    pref.setTitle(getString(R.string.sim_card_status_title, i + 1));
+                    if (sir != null) {
+                        pref.setSummary(sir.getDisplayName());
+                    } else {
+                        pref.setSummary(R.string.sim_card_summary_empty);
+                    }
+
+                    Intent intent = new Intent(getActivity(), Settings.SimStatusActivity.class);
+                    intent.putExtra(Settings.EXTRA_SHOW_FRAGMENT_TITLE,
+                            getString(R.string.sim_card_status_title, i + 1));
+                    intent.putExtra(Settings.EXTRA_SHOW_FRAGMENT_AS_SUBSETTING, true);
+                    intent.putExtra(SimStatus.EXTRA_SLOT_ID, i);
+                    pref.setIntent(intent);
+
+                    prefSet.addPreference(pref);
+                }
+
+                prefSet.removePreference(singleSimPref);
+            }
+        }
+        if (SystemProperties.getBoolean("ro.alarm_boot", false)) {
             removePreferenceFromScreen(KEY_IMEI_INFO);
         }
     }
@@ -338,5 +381,30 @@ public class Status extends SettingsPreferenceFragment {
         int h = (int)((t / 3600));
 
         return h + ":" + pad(m) + ":" + pad(s);
+    }
+
+    private String getSerialNumber() {
+        CMHardwareManager hardware = CMHardwareManager.getInstance(getActivity());
+        if (hardware.isSupported(CMHardwareManager.FEATURE_SERIAL_NUMBER)) {
+            return hardware.getSerialNumber();
+        } else {
+            return Build.SERIAL;
+        }
+    }
+
+    public static String getSarValues(Resources res) {
+        String headLevel = String.format(res.getString(R.string.maximum_head_level,
+                res.getString(R.string.sar_head_level)));
+        String bodyLevel = String.format(res.getString(R.string.maximum_body_level,
+                res.getString(R.string.sar_body_level)));
+        return headLevel + "\n" + bodyLevel;
+    }
+
+    public static String getIcCodes(Resources resources) {
+        String model = String.format(resources.getString(R.string.ic_code_model,
+                Build.MODEL));
+        String icCode = String.format(resources.getString(R.string.ic_code_full,
+                resources.getString(R.string.ic_code)));
+        return model + "\n" + icCode;
     }
 }

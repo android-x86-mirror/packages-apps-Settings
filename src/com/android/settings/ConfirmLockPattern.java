@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
+import android.os.UserHandle;
 import android.os.UserManager;
 import android.os.storage.StorageManager;
 import android.view.LayoutInflater;
@@ -100,6 +101,8 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
 
         private AppearAnimationUtils mAppearAnimationUtils;
         private DisappearAnimationUtils mDisappearAnimationUtils;
+        private boolean mIsScale = false;
+        private final float mScale = 0.65f;
 
         // required constructor for fragments
         public ConfirmLockPatternFragment() {
@@ -122,6 +125,8 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
             mLeftSpacerLandscape = view.findViewById(R.id.leftSpacer);
             mRightSpacerLandscape = view.findViewById(R.id.rightSpacer);
 
+            resizePattern();
+
             // make it so unhandled touch events within the unlock screen go to the
             // lock pattern view.
             final LinearLayoutWithDefaultTouchRecepient topLayout
@@ -140,6 +145,7 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
                     mLockPatternUtils.isTactileFeedbackEnabled());
             mLockPatternView.setInStealthMode(!mLockPatternUtils.isVisiblePatternEnabled(
                     mEffectiveUserId));
+            mLockPatternView.setLockPatternSize(mLockPatternUtils.getLockPatternSize(mEffectiveUserId));
             mLockPatternView.setOnPatternListener(mConfirmExistingLockPatternListener);
             updateStage(Stage.NeedToUnlock);
 
@@ -213,6 +219,27 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
                 updateStage(Stage.NeedToUnlock);
             }
             mCredentialCheckResultTracker.setListener(this);
+        }
+
+        private void resizePattern() {
+            if ((getActivity() != null) && getActivity().isInMultiWindowMode()) {
+                mIsScale = true;
+                ViewGroup.LayoutParams lp = mLockPatternView.getLayoutParams();
+                lp.width *=  mScale;
+                lp.height *= mScale;
+                mLockPatternView.setLayoutParams(lp);
+            }
+        }
+
+        @Override
+        public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+            super.onMultiWindowModeChanged(isInMultiWindowMode);
+            if (!isInMultiWindowMode && mIsScale) {
+                ViewGroup.LayoutParams lp = mLockPatternView.getLayoutParams();
+                lp.width /=  mScale;
+                lp.height /= mScale;
+                mLockPatternView.setLayoutParams(lp);
+            }
         }
 
         @Override
@@ -454,7 +481,9 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
                                 mLockPatternUtils, pattern, challenge, localUserId,
                                 onVerifyCallback)
                         : LockPatternChecker.verifyTiedProfileChallenge(
-                                mLockPatternUtils, LockPatternUtils.patternToString(pattern),
+                                mLockPatternUtils,
+                                LockPatternUtils.patternToString(pattern,
+                                    mLockPatternUtils.getLockPatternSize(mEffectiveUserId)),
                                 true, challenge, localUserId, onVerifyCallback);
             }
 
@@ -479,7 +508,7 @@ public class ConfirmLockPattern extends ConfirmDeviceCredentialBaseActivity {
                                     intent.putExtra(ChooseLockSettingsHelper.EXTRA_KEY_TYPE,
                                                     StorageManager.CRYPT_TYPE_PATTERN);
                                     intent.putExtra(ChooseLockSettingsHelper.EXTRA_KEY_PASSWORD,
-                                                    LockPatternUtils.patternToString(pattern));
+                                                    mLockPatternUtils.patternToString(pattern, localEffectiveUserId));
                                 }
                                 mCredentialCheckResultTracker.setResult(matched, intent, timeoutMs,
                                         localEffectiveUserId);

@@ -91,6 +91,8 @@ import android.widget.TabWidget;
 import com.android.internal.app.UnlaunchableAppActivity;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.UserIcons;
+import com.android.settings.bluetooth.BluetoothSettings;
+import com.android.settings.wifi.SavedAccessPointsWifiSettings;
 import com.android.internal.widget.LockPatternUtils;
 
 import java.io.IOException;
@@ -463,6 +465,11 @@ public final class Utils extends com.android.settingslib.Utils {
                 .getUsers().size() > 1;
     }
 
+    public static boolean isRestrictedProfile(Context context) {
+        UserManager um = (UserManager) context.getSystemService(Context.USER_SERVICE);
+        return um.getUserInfo(um.getUserHandle()).isRestricted();
+    }
+
     /**
      * Start a new instance of the activity, showing only the given fragment.
      * When launched in this mode, the given preference fragment will be instantiated and fill the
@@ -583,7 +590,15 @@ public final class Utils extends com.android.settingslib.Utils {
             Bundle args, String titleResPackageName, int titleResId, CharSequence title,
             boolean isShortcut) {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setClass(context, SubSettings.class);
+        if (BluetoothSettings.class.getName().equals(fragmentName)) {
+            intent.setClass(context, SubSettings.BluetoothSubSettings.class);
+            intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_AS_SUBSETTING, true);
+         } else if(SavedAccessPointsWifiSettings.class.getName().equals(fragmentName)) {
+            intent.setClass(context, SubSettings.SavedAccessPointsSubSettings.class);
+            intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_AS_SUBSETTING, true);
+        }else {
+             intent.setClass(context, SubSettings.class);
+         }
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT, fragmentName);
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGUMENTS, args);
         intent.putExtra(SettingsActivity.EXTRA_SHOW_FRAGMENT_TITLE_RES_PACKAGE_NAME,
@@ -803,6 +818,19 @@ public final class Utils extends com.android.settingslib.Utils {
                 (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         return tm.getSimCount() > 1;
+    }
+
+    /**
+     * Returns if need show the account with the given account type.
+     */
+    public static boolean showAccount(Context context, String accountType) {
+        String[] hideAccounts = context.getResources().getStringArray(R.array.hide_account_list);
+        if (hideAccounts == null || hideAccounts.length == 0) return true;
+
+        for (String account : hideAccounts) {
+            if (account.equals(accountType)) return false;
+        }
+        return true;
     }
 
     /**
@@ -1206,6 +1234,27 @@ public final class Utils extends com.android.settingslib.Utils {
         } catch (NameNotFoundException ignored) {
         }
         return false;
+    }
+
+    public static String join(Resources res, List<String> items) {
+        final int count = items.size();
+        if (items.isEmpty()) {
+            return null;
+        } else if (count == 1) {
+            return items.get(0);
+        } else if (count == 2) {
+            return res.getString(R.string.join_two_items, items.get(0), items.get(1));
+        } else {
+            String middle = items.get(count - 2);
+            for (int i = count - 3; i > 0; i--) {
+                middle = res.getString(R.string.join_many_items_middle,
+                        items.get(i), middle);
+            }
+            final String allButLast = res.getString(R.string.join_many_items_first,
+                    items.get(0), middle);
+            return res.getString(R.string.join_many_items_last, allButLast,
+                    items.get(count - 1));
+        }
     }
 
     public static boolean isCarrierDemoUser(Context context) {
