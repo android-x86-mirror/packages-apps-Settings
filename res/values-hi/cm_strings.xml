@@ -292,4 +292,6 @@
   <!-- IC Codes -->
   <string name="ic_code_model">मॉडेल: %1$s</string>
   <string name="ic_code_full">आईसी: %1$s</string>
+  <!-- Label for settings shortcut: carrier selection -->
+  <!-- Burn in protection -->
 </resources>
