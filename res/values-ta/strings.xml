@@ -1197,6 +1197,7 @@
     <string name="firmware_version" msgid="4801135784886859972">"Android பதிப்பு"</string>
     <string name="firmware_title" msgid="5203122368389157877">"Android"</string>
     <string name="security_patch" msgid="8438384045870296634">"Android பாதுகாப்பின் இணைப்புநிரல் நிலை"</string>
+    <string name="device_manufacturer" msgid="3516742885166545865">"உற்பத்தியாளர்"</string>
     <string name="model_info" msgid="1952009518045740889">"மாடல்"</string>
     <string name="model_summary" msgid="8306235877567782987">"மாடல்: %1$s"</string>
     <string name="hardware_info" msgid="2605080746512527805">"மாடல் &amp; வன்பொருள்"</string>

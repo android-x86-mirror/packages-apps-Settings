@@ -2767,6 +2767,8 @@
     <!-- About phone screen, status item label  [CHAR LIMIT=60] -->
     <string name="security_patch">Android security patch level</string>
     <!-- About phone screen, status item label  [CHAR LIMIT=40] -->
+    <string name="device_manufacturer">Manufacturer</string>
+    <!-- About phone screen, status item label  [CHAR LIMIT=40] -->
     <string name="model_info">Model</string>
     <!-- About phone screen, status item summary  [CHAR LIMIT=40] -->
     <string name="model_summary">Model&#58; %1$s</string>

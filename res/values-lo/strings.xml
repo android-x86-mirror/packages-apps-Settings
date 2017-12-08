@@ -1197,6 +1197,7 @@
     <string name="firmware_version" msgid="4801135784886859972">"ເວີຊັນຂອງ Android"</string>
     <string name="firmware_title" msgid="5203122368389157877">"Android"</string>
     <string name="security_patch" msgid="8438384045870296634">"ລະ​ດັບ​ບ່ອນ​ຄວາມ​ປອດ​ໄພ Android"</string>
+    <string name="device_manufacturer" msgid="3516742885166545865">"ຜູ້ຜະລິດ"</string>
     <string name="model_info" msgid="1952009518045740889">"ໂມເດວ"</string>
     <string name="model_summary" msgid="8306235877567782987">"ໂມເດວ: %1$s"</string>
     <string name="hardware_info" msgid="2605080746512527805">"ໂມເດວ ແລະ ຮາດແວ"</string>

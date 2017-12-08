@@ -126,6 +126,7 @@ public class DeviceInfoSettings extends DashboardFragment implements Indexable {
         final List<AbstractPreferenceController> controllers = new ArrayList<>();
         controllers.add(new PhoneNumberPreferenceController(context));
         controllers.add(new SimStatusPreferenceController(context, fragment));
+        controllers.add(new DeviceManufacturerPreferenceController(context));
         controllers.add(new DeviceModelPreferenceController(context, fragment));
         controllers.add(new ImeiInfoPreferenceController(context, fragment));
         controllers.add(new FirmwareVersionPreferenceController(context, fragment));

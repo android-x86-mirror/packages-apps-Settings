@@ -80,6 +80,13 @@
         android:summary="@string/summary_placeholder"
         settings:allowDividerAbove="true"/>
 
+    <!-- Device manufacturer -->
+    <Preference
+        android:key="device_manufacturer"
+        android:order="20"
+        android:title="@string/device_manufacturer"
+        android:summary="@string/summary_placeholder"/>
+
     <!-- Model & hardware -->
     <Preference
         android:key="device_model"

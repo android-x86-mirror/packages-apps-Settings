@@ -36,6 +36,13 @@
         settings:keywords="@string/keywords_sim_status"
         android:summary="@string/summary_placeholder"/>
 
+    <!-- Device manufacturer -->
+    <Preference
+        android:key="device_manufacturer"
+        android:order="20"
+        android:title="@string/device_manufacturer"
+        android:summary="@string/summary_placeholder"/>
+
     <!-- Model & hardware -->
     <Preference
         android:key="device_model"
