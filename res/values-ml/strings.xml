@@ -1358,6 +1358,7 @@
     <string name="system_update_settings_list_item_summary" msgid="6703752298349642101"></string>
     <string name="firmware_version" msgid="1606901586501447275">"Android പതിപ്പ്"</string>
     <string name="security_patch" msgid="2872125288404962091">"Android സുരക്ഷാ പാച്ച് നില"</string>
+    <string name="device_manufacturer" msgid="3516742885166545865">"നിർമ്മാതാവ്"</string>
     <string name="model_info" msgid="8997566254717810904">"മോഡല്‍"</string>
     <string name="model_summary" msgid="2246651782442466213">"മോഡൽ: %1$s"</string>
     <string name="hardware_info" msgid="7035211991066637019">"മോഡലും ഹാർഡ്‌വെയറും"</string>

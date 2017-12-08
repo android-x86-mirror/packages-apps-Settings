@@ -1358,6 +1358,7 @@
     <string name="system_update_settings_list_item_summary" msgid="6703752298349642101"></string>
     <string name="firmware_version" msgid="1606901586501447275">"एन्ड्रोइड संस्करण"</string>
     <string name="security_patch" msgid="2872125288404962091">"Android सुरक्षा प्याच चरण"</string>
+    <string name="device_manufacturer" msgid="3516742885166545865">"निर्माता"</string>
     <string name="model_info" msgid="8997566254717810904">"मोडेल"</string>
     <string name="model_summary" msgid="2246651782442466213">"मोडेल: %1$s"</string>
     <string name="hardware_info" msgid="7035211991066637019">"मोडेल तथा हार्डवेयर"</string>
