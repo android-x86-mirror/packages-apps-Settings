@@ -21,6 +21,14 @@
     android:title="@string/hardware_info"
     settings:keywords="@string/keywords_model_and_hardware">
 
+    <!-- Device manufacturer -->
+    <Preference
+        android:key="hardware_info_device_manufacturer"
+        android:title="@string/device_manufacturer"
+        android:summary="@string/summary_placeholder"
+        settings:controller="com.android.settings.deviceinfo.hardwareinfo.DeviceManufacturerPreferenceController"
+        settings:enableCopying="true"/>
+
     <!-- Model -->
     <Preference
         android:key="hardware_info_device_model"

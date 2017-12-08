@@ -1329,6 +1329,7 @@
     <string name="system_update_settings_list_item_summary" msgid="6703752298349642101"></string>
     <string name="firmware_version" msgid="1606901586501447275">"Android பதிப்பு"</string>
     <string name="security_patch" msgid="4071756145347865382">"Android பாதுகாப்புப் புதுப்பிப்பு"</string>
+    <string name="device_manufacturer" msgid="3516742885166545865">"உற்பத்தியாளர்"</string>
     <string name="model_info" msgid="8997566254717810904">"மாடல்"</string>
     <string name="hardware_info" msgid="7035211991066637019">"மாடல் &amp; வன்பொருள்"</string>
     <string name="hardware_revision" msgid="3454709180861965025">"வன்பொருள் பதிப்பு"</string>
