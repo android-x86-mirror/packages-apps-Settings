@@ -1336,6 +1336,7 @@
     <string name="fcc_equipment_id" msgid="6596668314025646129">"設備 ID"</string>
     <string name="baseband_version" msgid="2600182227599835857">"基頻版本"</string>
     <string name="kernel_version" msgid="3513538109381366881">"核心版本"</string>
+    <string name="opengl_version">"Open GL 驅動版本"</string>
     <string name="build_number" msgid="9009733242117579826">"版本號碼"</string>
     <string name="module_version" msgid="1787518340082046658">"Google Play 系統更新"</string>
     <string name="device_info_not_available" msgid="4804474466616712326">"無法取得"</string>
