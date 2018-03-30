@@ -2011,6 +2011,10 @@
     <string name="runningservicedetails_stop_dlg_title" msgid="6201041461740445113">"停止系統服務？"</string>
     <string name="runningservicedetails_stop_dlg_text" product="tablet" msgid="2076922609580490122">"如果你停用這項服務，你的平板電腦上的某些功能可能無法正常運作，待你重新開機後才會恢復正常。"</string>
     <string name="runningservicedetails_stop_dlg_text" product="default" msgid="2625863973434309085">"如果你停用這項服務，你的手機上的某些功能可能無法正常運作，待你重新開機後才會恢復正常。"</string>
+    <string name="android_x86_options_title">"Android-x86 設定"</string>
+    <string name="android_x86_dashboard_summary">原生相容模式、統計</string>
+    <string name="nativebridge_toggle_title">"原生相容模式"</string>
+    <string name="nativebridge_toggle_summary">"可相容於使用 arm 原生函式庫的應用程式"</string>
     <string name="language_input_gesture_title" msgid="3292455685728572960">"語言、輸入和手勢"</string>
     <string name="language_input_gesture_summary_on_with_assist" msgid="8670153838520237089"></string>
     <string name="language_input_gesture_summary_on_non_assist" msgid="2738661322747920463"></string>

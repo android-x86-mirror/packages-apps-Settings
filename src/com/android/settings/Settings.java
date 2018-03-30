@@ -98,6 +98,7 @@ public class Settings extends SettingsActivity {
     public static class MyDeviceInfoActivity extends SettingsActivity { /* empty */ }
     public static class ModuleLicensesActivity extends SettingsActivity { /* empty */ }
     public static class ApplicationSettingsActivity extends SettingsActivity { /* empty */ }
+    public static class AndroidX86DashboardActivity extends SettingsActivity { /* empty */ }
     public static class ManageApplicationsActivity extends SettingsActivity { /* empty */ }
     public static class ManageAssistActivity extends SettingsActivity { /* empty */ }
     public static class HighPowerApplicationsActivity extends SettingsActivity { /* empty */ }
