@@ -104,7 +104,7 @@ public final class SmsDefaultDialog extends AlertActivity implements
     }
 
     private boolean buildDialog(String packageName) {
-        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (!tm.isSmsCapable()) {
             // No phone, no SMS
             return false;
@@ -214,7 +214,7 @@ public final class SmsDefaultDialog extends AlertActivity implements
             } else {
                 view.findViewById(R.id.default_label).setVisibility(View.GONE);
             }
-            ImageView imageView = (ImageView)view.findViewById(android.R.id.icon);
+            ImageView imageView = (ImageView) view.findViewById(android.R.id.icon);
             imageView.setImageDrawable(item.icon);
             return view;
         }
