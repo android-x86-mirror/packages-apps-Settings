@@ -3228,6 +3228,12 @@
                 android:value="true" />
         </activity>
 
+        <receiver android:name=".DownloadCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".Settings$AccountDashboardActivity"
             android:label="@string/account_dashboard_title"
