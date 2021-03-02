@@ -115,10 +115,10 @@ public class AndroidX86DashboardFragment extends SettingsPreferenceFragment {
     private void downloadNativeBridge() {
         String url, file;
         if (VMRuntime.getRuntime().is64Bit()) {
-            url = "https://t.cn/RBJ7eml";
+            url = "https://tinyurl.com/2revhsk9";
             file = "houdini8_y.sfs";
         } else {
-            url = "https://t.cn/RBJ7mfG";
+            url = "https://tinyurl.com/3uyfjaps";
             file = "houdini8_x.sfs";
         }
 
